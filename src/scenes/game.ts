@@ -4,8 +4,9 @@ import { Pig } from '../entities/pig';
 import { Direction, TruffleDistance } from '../lib/types';
 import { ActionButton } from '../entities/action-button';
 import { Bush } from "../entities/bush";
-import { MAX_SNIFF_AMOUNT, OBJECT_TRANS_ALPHA } from "../config";
+import { MAX_SNIFF_AMOUNT, MIN_DIG_DISTANCE, OBJECT_TRANS_ALPHA } from "../config";
 import { ScentCloud } from "../entities/scent-cloud";
+import { TruffleSpawner } from "../entities/truffle-spawner";
 
 export class Game extends Scene {
     private map: Map;
@@ -127,10 +128,8 @@ export class Game extends Scene {
                     closestTuffles = closestTuffles.sort((a, b) => a.distance > b.distance ? 1 : -1);
                     closestTuffles = closestTuffles.slice(0, MAX_SNIFF_AMOUNT);
                     closestTuffles.forEach(({truffle}) => {
-                        truffle.alpha = 1
-
                         if (this.cameras.main.getBounds().contains(truffle.x, truffle.y)) {
-                            this.spawnScentCloud(truffle.x, truffle.y);
+                            this.spawnScentCloud(truffle);
                         }
                     });
 
@@ -139,18 +138,22 @@ export class Game extends Scene {
         }
     }
 
-    private spawnScentCloud(x: number, y: number) {
-        if (this.scentClouds.length === MAX_SNIFF_AMOUNT) {
-            this.scentClouds.forEach(cloud => cloud.refresh());
-            return;
+    private spawnScentCloud(truffle: TruffleSpawner) {
+        if (truffle.scentCloud) {
+            console.log('refresh cloud');
+            if (truffle.scentCloud.sniffCount > 1 && Phaser.Math.Distance.Between(this.pig.x, this.pig.y, truffle.x, truffle.y) < MIN_DIG_DISTANCE) {
+                truffle.scentCloud.shrink();
+                return;
+            }
+            truffle.scentCloud.refresh();
+        } else {
+            console.log('spawn cloud');
+            truffle.spawnCloud();
         }
-        const cloud = new ScentCloud(this, x, y);
-        this.scentClouds.push(cloud);
     }
 
     removeScentCloud(cloud: ScentCloud) {
         this.scentClouds.splice(this.scentClouds.indexOf(cloud), 1);
         cloud.destroy(true);
-        console.log('boop');
     }
 }

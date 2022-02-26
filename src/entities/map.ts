@@ -1,12 +1,11 @@
-import { Scene } from 'phaser';
-import Sprite = Phaser.GameObjects.Sprite;
 import { OBJECT_TRANS_ALPHA, TILE_SIZE, TOTAL_TRUFFLE } from "../config";
-import Tile = Phaser.Tilemaps.Tile;
 import { TruffleSpawner } from "./truffle-spawner";
 import { Pig } from "./pig";
 import { Shack } from "./shack";
 import { Bush } from "./bush";
 import { Game } from "../scenes/game";
+import Sprite = Phaser.GameObjects.Sprite;
+import Tile = Phaser.Tilemaps.Tile;
 
 export class Map {
     scene: Game;

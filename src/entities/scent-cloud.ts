@@ -1,39 +1,81 @@
 import { GameObjects, Scene } from 'phaser';
 import { SCENT_CLOUD_FADE_DELAY, SCENT_CLOUD_FADE_DURATION, TILE_SIZE } from "../config";
-import { Game } from "../scenes/game";
 
 export class ScentCloud extends GameObjects.Sprite {
     private fadeout: Phaser.Tweens.Tween;
+    private hasShrunk: boolean;
+    private actualPosition: Phaser.Types.Math.Vector2Like;
+    sniffCount: number;
 
-    constructor(scene: Game, x: number, y: number) {
+    constructor(scene: Scene, x: number, y: number) {
         super(scene, 0, 0, 'smell_zone');
         this.alpha = 0.7;
         this.setOrigin(0.5, 0.5);
 
-        let randX = Phaser.Math.RND.between(TILE_SIZE, (this.width / 2));
-        let randY = Phaser.Math.RND.between(TILE_SIZE, (this.height / 2));
-
-        if (Math.random() > 0.5) {
-            randX *= -1;
-        }
-
-        if (Math.random() > 0.5) {
-            randY *= -1;
-        }
-
-        this.setPosition(randX + x, randY + y);
+        this.actualPosition = {
+            x,
+            y
+        };
+        this.sniffCount = 1;
+        this.setRandomProps();
         scene.add.existing(this);
 
-        this.fadeout = scene.tweens.add({
+        this.addFadeout();
+    }
+
+    setRandomProps() {
+        this.setRandomPosition();
+        this.angle = Math.random() * 360;
+    }
+
+    addFadeout() {
+        if (this.fadeout?.isPlaying()) {
+            console.log('am playing, skip!');
+            return;
+        }
+        this.fadeout = this.scene.tweens.add({
             delay: SCENT_CLOUD_FADE_DELAY,
             duration: SCENT_CLOUD_FADE_DURATION,
             targets: this,
             alpha: 0,
-            onComplete: () => scene.removeScentCloud(this)
+            onComplete: () => this.setRandomProps()
         });
     }
 
+    setRandomPosition() {
+        super.setRandomPosition(
+            this.actualPosition.x - (this.width / 2),
+            this.actualPosition.y - (this.height / 2),
+            this.width,
+            this.height);
+
+        return this;
+    }
+
     refresh() {
+        if (this.hasShrunk) {
+            this.setRandomProps();
+            this.scale = 1;
+            this.hasShrunk = false;
+            this.sniffCount = 0;
+        }
+
+        this.sniffCount++
+        this.alpha = 1;
         this.fadeout.restart();
+    }
+
+    shrink() {
+        if (this.hasShrunk) {
+            return;
+        }
+        this.fadeout.stop();
+        this.alpha = 1;
+        this.scale = 0.3;
+        this.x = this.actualPosition.x;
+        this.y = this.actualPosition.y;
+        this.angle = Math.random() * 360;
+        this.hasShrunk = true;
+        this.addFadeout();
     }
 }
