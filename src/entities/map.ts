@@ -51,7 +51,10 @@ export class Map {
         ]);
 
         this.worldObjects.forEach((sprite: Sprite) => {
-            sprite.setDepth(sprite.y + (sprite.height * sprite.originY));
+            // revert Phaser positioning
+            sprite.y = (sprite.height * sprite.originY) + sprite.y;
+            sprite.setOrigin(0.5, 1);
+            sprite.setDepth(sprite.y);
         });
 
         // spawn truffles
