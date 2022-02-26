@@ -1,4 +1,5 @@
 import { Scene } from 'phaser';
+import Sprite = Phaser.GameObjects.Sprite;
 
 export class Map {
     scene: Scene;
@@ -30,7 +31,9 @@ export class Map {
                 key: 'tree_set',
                 frame: 1
             }
-        ])
+        ]);
+
+        objects.forEach((a: Sprite) => a.setDepth(a.y));
 
 
         /*mapLayer.layer.data.forEach(row => {
