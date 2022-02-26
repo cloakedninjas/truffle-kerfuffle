@@ -4,8 +4,7 @@ import { Pig } from '../entities/pig';
 import { Direction, TruffleDistance } from '../lib/types';
 import { ActionButton } from '../entities/action-button';
 import { Bush } from "../entities/bush";
-import { MAX_SNIFF_AMOUNT, MIN_DIG_DISTANCE, OBJECT_TRANS_ALPHA } from "../config";
-import { ScentCloud } from "../entities/scent-cloud";
+import { MAX_SNIFF_AMOUNT, MIN_DIG_DISTANCE, MIN_SNIFF_SHRINK_DISTANCE, OBJECT_TRANS_ALPHA } from "../config";
 import { TruffleSpawner } from "../entities/truffle-spawner";
 
 export class Game extends Scene {
@@ -13,7 +12,7 @@ export class Game extends Scene {
     private pig: Pig;
 
     actionButton: ActionButton;
-    private scentClouds: ScentCloud[];
+    private nearestTruffle: TruffleSpawner;
 
     constructor() {
         super({
@@ -23,7 +22,6 @@ export class Game extends Scene {
 
     create(): void {
         this.map = new Map(this);
-        this.scentClouds = [];
 
         this.spawnPig();
         this.setupUI();
@@ -89,71 +87,80 @@ export class Game extends Scene {
     }
 
     private performAction() {
-        if (this.actionButton.visible) {
-            let bush;
-            let closestTuffles: TruffleDistance[] = [];
+        if (!this.actionButton.visible) {
+            return;
+        }
 
-            switch (this.actionButton.action) {
-                case 'hide':
-                    this.pig.hide();
-                    bush = this.actionButton.activeObject as Bush;
+        let bush;
+        let closestTuffles: TruffleDistance[] = [];
 
-                    bush.setPigInside();
-                    bush.alpha = 1;
-                    this.actionButton.setAction('reveal', this.actionButton.activeObject);
-                    break;
+        switch (this.actionButton.action) {
+            case 'hide':
+                this.pig.hide();
+                bush = this.actionButton.activeObject as Bush;
 
-                case 'reveal':
-                    this.pig.reveal();
-                    bush = this.actionButton.activeObject as Bush;
-                    bush.setPigOutisde();
+                bush.setPigInside();
+                bush.alpha = 1;
+                this.actionButton.setAction('reveal', this.actionButton.activeObject);
+                break;
 
-                    if (bush.getBounds().contains(this.pig.x, this.pig.y)) {
-                        bush.alpha = OBJECT_TRANS_ALPHA;
+            case 'reveal':
+                this.pig.reveal();
+                bush = this.actionButton.activeObject as Bush;
+                bush.setPigOutisde();
+
+                if (bush.getBounds().contains(this.pig.x, this.pig.y)) {
+                    bush.alpha = OBJECT_TRANS_ALPHA;
+                }
+
+                this.actionButton.setAction('hide', this.actionButton.activeObject);
+                break;
+
+            case 'sniff':
+                this.map.truffleSpawners.forEach(truffle => {
+                    const distance = Phaser.Math.Distance.BetweenPointsSquared(truffle.getCenter(), this.pig.getCenter());
+
+                    closestTuffles.push({
+                        truffle,
+                        distance
+                    });
+                });
+
+                closestTuffles = closestTuffles.sort((a, b) => a.distance > b.distance ? 1 : -1);
+                closestTuffles = closestTuffles.slice(0, MAX_SNIFF_AMOUNT);
+                closestTuffles.forEach(({truffle}) => {
+                    if (this.cameras.main.getBounds().contains(truffle.x, truffle.y)) {
+                        this.spawnScentCloud(truffle);
                     }
+                });
 
-                    this.actionButton.setAction('hide', this.actionButton.activeObject);
-                    break;
+                break;
 
-                case 'sniff':
-                    this.map.truffleSpawners.forEach(truffle => {
-                        const distance = Phaser.Math.Distance.BetweenPointsSquared(truffle.getCenter(), this.pig.getCenter());
+            case 'dig':
+                this.actionButton.setAction(null);
+                this.nearestTruffle.excavate();
 
-                        closestTuffles.push({
-                            truffle,
-                            distance
-                        });
-                    });
-
-                    closestTuffles = closestTuffles.sort((a, b) => a.distance > b.distance ? 1 : -1);
-                    closestTuffles = closestTuffles.slice(0, MAX_SNIFF_AMOUNT);
-                    closestTuffles.forEach(({truffle}) => {
-                        if (this.cameras.main.getBounds().contains(truffle.x, truffle.y)) {
-                            this.spawnScentCloud(truffle);
-                        }
-                    });
-
-                    break;
-            }
+                break;
         }
     }
 
     private spawnScentCloud(truffle: TruffleSpawner) {
         if (truffle.scentCloud) {
-            console.log('refresh cloud');
-            if (truffle.scentCloud.sniffCount > 1 && Phaser.Math.Distance.Between(this.pig.x, this.pig.y, truffle.x, truffle.y) < MIN_DIG_DISTANCE) {
+            const distanceToTruffle = Phaser.Math.Distance.Between(this.pig.x, this.pig.y, truffle.x, truffle.y);
+
+            if (truffle.scentCloud.sniffCount > 1 && distanceToTruffle < MIN_SNIFF_SHRINK_DISTANCE) {
                 truffle.scentCloud.shrink();
+
+                if (distanceToTruffle < MIN_DIG_DISTANCE) {
+                    this.actionButton.setAction('dig');
+                    this.nearestTruffle = truffle;
+                }
+
                 return;
             }
             truffle.scentCloud.refresh();
         } else {
-            console.log('spawn cloud');
             truffle.spawnCloud();
         }
-    }
-
-    removeScentCloud(cloud: ScentCloud) {
-        this.scentClouds.splice(this.scentClouds.indexOf(cloud), 1);
-        cloud.destroy(true);
     }
 }

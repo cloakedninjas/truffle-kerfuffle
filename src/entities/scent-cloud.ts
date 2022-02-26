@@ -38,7 +38,11 @@ export class ScentCloud extends GameObjects.Sprite {
             duration: SCENT_CLOUD_FADE_DURATION,
             targets: this,
             alpha: 0,
-            onComplete: () => this.setRandomProps()
+            onComplete: () => {
+                if (!this.hasShrunk) {
+                    this.setRandomProps();
+                }
+            }
         });
     }
 
@@ -67,6 +71,11 @@ export class ScentCloud extends GameObjects.Sprite {
 
     shrink() {
         if (this.hasShrunk) {
+            if (!this.fadeout.isPlaying()) {
+                this.alpha = 1;
+                this.fadeout.restart();
+            }
+
             return;
         }
         this.fadeout.stop();
@@ -77,5 +86,10 @@ export class ScentCloud extends GameObjects.Sprite {
         this.angle = Math.random() * 360;
         this.hasShrunk = true;
         this.addFadeout();
+    }
+
+    destroy() {
+        this.fadeout.destroy();
+        super.destroy();
     }
 }

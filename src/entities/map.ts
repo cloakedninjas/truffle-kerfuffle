@@ -23,25 +23,23 @@ export class Map {
         });
 
         // tilesets
-        const grassTiles = this.tilemap.addTilesetImage('Grass', 'grass');
-        //const trees = this.tilemap.addTilesetImage('trees', 'tree_set');
-        //const hills = this.tilemap.addTilesetImage('Hills', 'hills');
+        const tiles = this.tilemap.addTilesetImage('tiles', 'tiles');
 
         // layers
-        this.tilemap.createLayer(`ground`, [grassTiles]);
+        this.tilemap.createLayer('ground', tiles);
         //const clutterLayer = this.tilemap.createLayer(`clutter`, [trees, hills]);
-        this.collisionLayer = this.tilemap.createLayer('collision', []);
+        this.collisionLayer = this.tilemap.createLayer('collision', tiles); // TODO hide tiles
 
         // world objects
         this.worldObjects = this.tilemap.createFromObjects('objects', [
             {
-                gid: 152,
+                gid: 1,
                 key: 'bush',
                 // @ts-ignore
                 classType: Bush
             },
             {
-                gid: 153,
+                gid: 2,
                 key: 'tree'
             },
             {
@@ -66,14 +64,16 @@ export class Map {
             }
         });
 
-        this.truffleSpawners = [];
+        if (spawnLocations.length) {
+            this.truffleSpawners = [];
 
-        for (let i = 0; i < TOTAL_TRUFFLE; i++) {
-            const spawnIndex = Math.floor(Math.random() * spawnLocations.length);
-            const tile = spawnLocations[spawnIndex];
+            for (let i = 0; i < TOTAL_TRUFFLE; i++) {
+                const spawnIndex = Math.floor(Math.random() * spawnLocations.length);
+                const tile = spawnLocations[spawnIndex];
 
-            this.truffleSpawners.push(new TruffleSpawner(this.scene, this, tile));
-            spawnLocations.splice(spawnIndex, 1);
+                this.truffleSpawners.push(new TruffleSpawner(this.scene, this, tile, 3)); // TODO randomise
+                spawnLocations.splice(spawnIndex, 1);
+            }
         }
     }
 
