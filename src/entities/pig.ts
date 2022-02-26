@@ -28,6 +28,7 @@ export class Pig extends GameObjects.Sprite {
             if (this.map.isPositionWalkable(newPosition)) {
                 this.setPosition(newPosition.x, newPosition.y);
                 this.setDepth(this.y);
+                this.map.checkObjectVis(this);
             }
         }
     }

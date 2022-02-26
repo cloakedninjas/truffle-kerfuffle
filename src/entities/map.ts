@@ -3,12 +3,14 @@ import Sprite = Phaser.GameObjects.Sprite;
 import { TILE_SIZE, TOTAL_TRUFFLE } from "../config";
 import Tile = Phaser.Tilemaps.Tile;
 import { TruffleSpawner } from "./truffle-spawner";
+import { Pig } from "./pig";
 
 export class Map {
     scene: Scene;
     tilemap: Phaser.Tilemaps.Tilemap;
     collisionLayer: Phaser.Tilemaps.TilemapLayer;
     truffleSpawners: TruffleSpawner[]
+    private worldObjects: Phaser.GameObjects.GameObject[];
 
     constructor(scene: Scene) {
         this.scene = scene;
@@ -28,7 +30,7 @@ export class Map {
         this.collisionLayer = this.tilemap.createLayer('collision', []);
 
         // world objects
-        const objects = this.tilemap.createFromObjects('objects', [
+        this.worldObjects = this.tilemap.createFromObjects('objects', [
             {
                 gid: 152,
                 key: 'tree_set'
@@ -40,7 +42,7 @@ export class Map {
             }
         ]);
 
-        objects.forEach((sprite: Sprite) => {
+        this.worldObjects.forEach((sprite: Sprite) => {
             sprite.setOrigin(0.5, 1);
             sprite.setDepth(sprite.y);
         });
@@ -64,8 +66,6 @@ export class Map {
             this.truffleSpawners.push(new TruffleSpawner(this.scene, this, tile));
             spawnLocations.splice(spawnIndex, 1);
         }
-
-        console.log(spawnLocations);
     }
 /*
     isEdgeTile(pos: Phaser.Types.Math.Vector2Like): boolean {
@@ -81,6 +81,16 @@ export class Map {
     getTileAt(position: Phaser.Types.Math.Vector2Like): Phaser.Tilemaps.Tile {
         return this.tilemap.getTileAt(position.x, position.y);
     }*/
+
+    checkObjectVis(pig: Pig) {
+        this.worldObjects.forEach((obj: Sprite) => {
+            if (obj.getBounds().contains(pig.x, pig.y)) {
+                obj.alpha = 0.5;
+            } else {
+                obj.alpha = 1;
+            }
+        })
+    }
 
     isPositionWalkable(position: Phaser.Types.Math.Vector2Like): boolean {
         const tile = this.pxToTileCoord(position);
