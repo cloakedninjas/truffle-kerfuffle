@@ -1,9 +1,10 @@
 import { Scene } from 'phaser';
 import { Map } from '../entities/map';
 import { Pig } from '../entities/pig';
-import { Direction } from '../lib/types';
+import { Direction, TruffleDistance } from '../lib/types';
 import { ActionButton } from '../entities/action-button';
 import { Bush } from "../entities/bush";
+import { MAX_SNIFF_AMOUNT, OBJECT_TRANS_ALPHA } from "../config";
 
 export class Game extends Scene {
     private map: Map;
@@ -85,17 +86,45 @@ export class Game extends Scene {
 
     private performAction() {
         if (this.actionButton.visible) {
+            let bush;
+            let closestTuffles: TruffleDistance[] = [];
+
             switch (this.actionButton.action) {
                 case 'hide':
                     this.pig.hide();
-                    (this.actionButton.activeObject as Bush).setPigInside();
+                    bush = this.actionButton.activeObject as Bush;
+
+                    bush.setPigInside();
+                    bush.alpha = 1;
                     this.actionButton.setAction('reveal', this.actionButton.activeObject);
                     break;
 
                 case 'reveal':
                     this.pig.reveal();
-                    (this.actionButton.activeObject as Bush).setPigOutisde();
+                    bush = this.actionButton.activeObject as Bush;
+                    bush.setPigOutisde();
+
+                    if (bush.getBounds().contains(this.pig.x, this.pig.y)) {
+                        bush.alpha = OBJECT_TRANS_ALPHA;
+                    }
+
                     this.actionButton.setAction('hide', this.actionButton.activeObject);
+                    break;
+
+                case 'sniff':
+                    this.map.truffleSpawners.forEach(truffle => {
+                        const distance = Phaser.Math.Distance.BetweenPointsSquared(truffle.getCenter(), this.pig.getCenter());
+
+                        closestTuffles.push({
+                            truffle,
+                            distance
+                        });
+                    });
+
+                    closestTuffles = closestTuffles.sort((a, b) => a.distance > b.distance ? 1 : -1);
+                    closestTuffles = closestTuffles.slice(0, MAX_SNIFF_AMOUNT);
+                    closestTuffles.forEach(truffle => truffle.truffle.alpha = 1);
+
                     break;
             }
         }

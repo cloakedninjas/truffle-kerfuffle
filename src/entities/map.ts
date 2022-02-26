@@ -1,6 +1,6 @@
 import { Scene } from 'phaser';
 import Sprite = Phaser.GameObjects.Sprite;
-import { TILE_SIZE, TOTAL_TRUFFLE } from "../config";
+import { OBJECT_TRANS_ALPHA, TILE_SIZE, TOTAL_TRUFFLE } from "../config";
 import Tile = Phaser.Tilemaps.Tile;
 import { TruffleSpawner } from "./truffle-spawner";
 import { Pig } from "./pig";
@@ -87,7 +87,7 @@ export class Map {
 
         this.worldObjects.forEach((obj: Sprite) => {
             if (obj.getBounds().contains(this.pig.x, this.pig.y)) {
-                obj.alpha = 0.5;
+                obj.alpha = OBJECT_TRANS_ALPHA;
             } else {
                 obj.alpha = 1;
             }
@@ -112,8 +112,7 @@ export class Map {
         });
 
         if (!actionEnabled) {
-            // can sniff?
-            this.scene.actionButton.setAction(null);
+            this.scene.actionButton.setAction('sniff');
         }
     }
 

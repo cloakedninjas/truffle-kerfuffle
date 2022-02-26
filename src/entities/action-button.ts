@@ -22,7 +22,7 @@ export class ActionButton extends Button {
         this.activeObject = gameObject;
 
         if (action) {
-            //this.setTexture(action);
+            this.setTexture(action);
             this.visible = true;
         } else {
             this.visible = false;
