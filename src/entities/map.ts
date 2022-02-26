@@ -33,7 +33,10 @@ export class Map {
             }
         ]);
 
-        objects.forEach((a: Sprite) => a.setDepth(a.y));
+        objects.forEach((sprite: Sprite) => {
+            sprite.setOrigin(0.5, 1);
+            sprite.setDepth(sprite.y);
+        });
 
 
         /*mapLayer.layer.data.forEach(row => {
