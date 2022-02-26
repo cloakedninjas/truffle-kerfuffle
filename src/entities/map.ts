@@ -4,15 +4,19 @@ import { TILE_SIZE, TOTAL_TRUFFLE } from "../config";
 import Tile = Phaser.Tilemaps.Tile;
 import { TruffleSpawner } from "./truffle-spawner";
 import { Pig } from "./pig";
+import { Shack } from "./shack";
+import { Bush } from "./bush";
+import { Game } from "../scenes/game";
 
 export class Map {
-    scene: Scene;
+    scene: Game;
     tilemap: Phaser.Tilemaps.Tilemap;
     collisionLayer: Phaser.Tilemaps.TilemapLayer;
     truffleSpawners: TruffleSpawner[]
+    pig: Pig;
     private worldObjects: Phaser.GameObjects.GameObject[];
 
-    constructor(scene: Scene) {
+    constructor(scene: Game) {
         this.scene = scene;
 
         this.tilemap = this.scene.make.tilemap({
@@ -33,18 +37,24 @@ export class Map {
         this.worldObjects = this.tilemap.createFromObjects('objects', [
             {
                 gid: 152,
-                key: 'tree_set'
+                key: 'bush',
+                // @ts-ignore
+                classType: Bush
             },
             {
                 gid: 153,
-                key: 'tree_set',
-                frame: 1
+                key: 'tree'
+            },
+            {
+                gid: 154,
+                key: 'shack',
+                // @ts-ignore
+                classType: Shack
             }
         ]);
 
         this.worldObjects.forEach((sprite: Sprite) => {
-            sprite.setOrigin(0.5, 1);
-            sprite.setDepth(sprite.y);
+            sprite.setDepth(sprite.y + sprite.height);
         });
 
         // spawn truffles
@@ -67,29 +77,40 @@ export class Map {
             spawnLocations.splice(spawnIndex, 1);
         }
     }
-/*
-    isEdgeTile(pos: Phaser.Types.Math.Vector2Like): boolean {
-        if (pos.x === 0 || pos.x === this.tilemap.width - 1) {
-            return true;
-        }
 
-        if (pos.y === 0 || pos.y === this.tilemap.height - 1) {
-            return true;
-        }
-    }
+    checkWorldObjects() {
+        let actionEnabled = false;
 
-    getTileAt(position: Phaser.Types.Math.Vector2Like): Phaser.Tilemaps.Tile {
-        return this.tilemap.getTileAt(position.x, position.y);
-    }*/
-
-    checkObjectVis(pig: Pig) {
         this.worldObjects.forEach((obj: Sprite) => {
-            if (obj.getBounds().contains(pig.x, pig.y)) {
+            if (obj.getBounds().contains(this.pig.x, this.pig.y)) {
                 obj.alpha = 0.5;
             } else {
                 obj.alpha = 1;
             }
-        })
+
+            if (obj instanceof Bush || obj instanceof Shack) {
+                const catchmentArea = obj.getBounds();
+                catchmentArea.x -= TILE_SIZE;
+                catchmentArea.y -= TILE_SIZE;
+                catchmentArea.width += (TILE_SIZE * 2);
+                catchmentArea.height += (TILE_SIZE * 2);
+
+                if (catchmentArea.contains(this.pig.x, this.pig.y)) {
+                    if (obj instanceof Bush) {
+                        actionEnabled = true;
+                        this.scene.actionButton.setAction('hide');
+                    } else if (this.pig.truffleCount > 0) {
+                        actionEnabled = true;
+                        this.scene.actionButton.setAction('deposit');
+                    }
+                }
+            }
+        });
+
+        if (!actionEnabled) {
+            // can sniff?
+            this.scene.actionButton.setAction(null);
+        }
     }
 
     isPositionWalkable(position: Phaser.Types.Math.Vector2Like): boolean {

@@ -1,1 +1,80 @@
-{"assetRoot":"assets","totalSize":783801,"assets":{"image":{"fences":{"file":"fences.png","size":483},"hills":{"file":"hills.png","size":2732},"grass":{"file":"grass.png","size":3971},"tilled_dirt":{"file":"tilled_dirt.png","size":2018},"water":{"file":"water.png","size":251},"wooden_house":{"file":"wooden_house.png","size":1784},"piggy":{"file":"piggy.png","size":643},"truffle":{"file":"truffle.png","size":217}},"tilemapTiledJSON":{"map":{"file":"map.json","size":122899}},"spritesheet":{"tree_set":{"file":"tree_set.png","size":12012,"frameConfig":{"frameWidth":128,"frameHeight":128}}}}}
+{
+  "assetRoot": "assets",
+  "totalSize": 864617,
+  "assets": {
+    "image": {
+      "fences": {
+        "file": "fences.png",
+        "size": 483
+      },
+      "hills": {
+        "file": "hills.png",
+        "size": 2732
+      },
+      "grass": {
+        "file": "grass.png",
+        "size": 3971
+      },
+      "tilled_dirt": {
+        "file": "tilled_dirt.png",
+        "size": 2018
+      },
+      "water": {
+        "file": "water.png",
+        "size": 251
+      },
+      "wooden_house": {
+        "file": "wooden_house.png",
+        "size": 1784
+      },
+      "piggy": {
+        "file": "piggy.png",
+        "size": 643
+      },
+      "truffle": {
+        "file": "truffle.png",
+        "size": 217
+      },
+      "action_button": {
+        "file": "action_button.png",
+        "size": 240
+      },
+      "bush": {
+        "file": "bush.png",
+        "size": 10191
+      },
+      "tree": {
+        "file": "tree.png",
+        "size": 39732
+      },
+      "bush_pig": {
+        "file": "bush_pig.png",
+        "size": 12433
+      }
+    },
+    "tilemapTiledJSON": {
+      "map": {
+        "file": "map.json",
+        "size": 122899
+      }
+    },
+    "spritesheet": {
+      "tree_set": {
+        "file": "tree_set.png",
+        "size": 12012,
+        "frameConfig": {
+          "frameWidth": 128,
+          "frameHeight": 128
+        }
+      },
+      "pig_walk": {
+        "file": "pig_walk.png",
+        "size": 18220,
+        "frameConfig": {
+          "frameWidth": 61,
+          "frameHeight": 55
+        }
+      }
+    }
+  }
+}

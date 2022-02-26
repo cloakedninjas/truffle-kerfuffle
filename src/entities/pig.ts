@@ -6,15 +6,17 @@ import { PIG_BASE_SPEED } from "../config";
 export class Pig extends GameObjects.Sprite {
     public velocity: Phaser.Types.Math.Vector2Like;
     private map: Map;
+    truffleCount: number;
 
     constructor(scene: Scene, map: Map) {
-        super(scene, 0, 0, 'piggy');
+        super(scene, 0, 0, 'pig_walk');
 
         this.map = map;
         this.velocity  = {
             x: 0,
             y: 0
         };
+        this.truffleCount = 0;
         this.setOrigin(0.5, 1);
     }
 
@@ -28,7 +30,7 @@ export class Pig extends GameObjects.Sprite {
             if (this.map.isPositionWalkable(newPosition)) {
                 this.setPosition(newPosition.x, newPosition.y);
                 this.setDepth(this.y);
-                this.map.checkObjectVis(this);
+                this.map.checkWorldObjects();
             }
         }
     }
