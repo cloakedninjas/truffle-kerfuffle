@@ -36,5 +36,8 @@ export class TruffleSpawner extends GameObjects.Sprite {
         for (let i = 0; i < this.spawnQty; i++) {
             new Truffle(this.scene, this.x, this.y);
         }
+
+        // spawner not needed anymore
+        this.destroy();
     }
 }
