@@ -1,9 +1,11 @@
 import { Scene } from 'phaser';
 import Sprite = Phaser.GameObjects.Sprite;
+import { TILE_SIZE } from "../config";
 
 export class Map {
     scene: Scene;
     tilemap: Phaser.Tilemaps.Tilemap;
+    collisionLayer: Phaser.Tilemaps.TilemapLayer;
 
     constructor(scene: Scene) {
         this.scene = scene;
@@ -20,6 +22,7 @@ export class Map {
         // layers
         const groundLayer = this.tilemap.createLayer(`ground`, [grassTiles]);
         //const clutterLayer = this.tilemap.createLayer(`clutter`, [trees, hills]);
+        this.collisionLayer = this.tilemap.createLayer(`collision`, []);
 
         const objects = this.tilemap.createFromObjects('objects', [
             {
@@ -37,25 +40,8 @@ export class Map {
             sprite.setOrigin(0.5, 1);
             sprite.setDepth(sprite.y);
         });
-
-
-        /*mapLayer.layer.data.forEach(row => {
-            row.forEach(tile => {
-                //tile.alpha = 0;
-            });
-        });*/
     }
-
-    isWalkableTile(pos: Phaser.Types.Math.Vector2Like): boolean {
-        if (this.isEdgeTile(pos)) {
-            return false;
-        }
-
-        const tile = this.tilemap.getTileAt(pos.x, pos.y);
-        //return CELL_WALKABLE.includes(tile.index);
-        return true;
-    }
-
+/*
     isEdgeTile(pos: Phaser.Types.Math.Vector2Like): boolean {
         if (pos.x === 0 || pos.x === this.tilemap.width - 1) {
             return true;
@@ -68,5 +54,14 @@ export class Map {
 
     getTileAt(position: Phaser.Types.Math.Vector2Like): Phaser.Tilemaps.Tile {
         return this.tilemap.getTileAt(position.x, position.y);
+    }*/
+
+    isPositionWalkable(position: Phaser.Types.Math.Vector2Like): boolean {
+        const tile = {
+            x: Math.floor(position.x / TILE_SIZE),
+            y: Math.floor(position.y / TILE_SIZE)
+        }
+
+        return this.collisionLayer.getTileAt(tile.x, tile.y) === null;
     }
 }

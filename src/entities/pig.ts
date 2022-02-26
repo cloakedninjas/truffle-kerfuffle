@@ -20,10 +20,15 @@ export class Pig extends GameObjects.Sprite {
 
     update(delta: number) {
         if (this.velocity.x || this.velocity.y) {
-            // can pig move into next tile
+            const newPosition = {
+                x: this.x + (this.velocity.x * delta),
+                y: this.y + (this.velocity.y * delta)
+            };
 
-            this.setPosition(this.x + (this.velocity.x * delta), this.y + (this.velocity.y * delta))
-            this.setDepth(this.y);
+            if (this.map.isPositionWalkable(newPosition)) {
+                this.setPosition(newPosition.x, newPosition.y);
+                this.setDepth(this.y);
+            }
         }
     }
 
