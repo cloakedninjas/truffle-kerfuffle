@@ -87,9 +87,4 @@ export class ScentCloud extends GameObjects.Sprite {
         this.hasShrunk = true;
         this.addFadeout();
     }
-
-    destroy() {
-        this.fadeout.destroy();
-        super.destroy();
-    }
 }
