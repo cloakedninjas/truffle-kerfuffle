@@ -7,6 +7,7 @@ export class Pig extends GameObjects.Sprite {
     public velocity: Phaser.Types.Math.Vector2Like;
     private map: Map;
     truffleCount: number;
+    isHiding: boolean;
 
     constructor(scene: Scene, map: Map) {
         super(scene, 0, 0, 'pig_walk');
@@ -17,6 +18,7 @@ export class Pig extends GameObjects.Sprite {
             y: 0
         };
         this.truffleCount = 0;
+        this.isHiding = false;
         this.setOrigin(0.5, 1);
     }
 
@@ -36,6 +38,10 @@ export class Pig extends GameObjects.Sprite {
     }
 
     move(dir: Direction) {
+        if (this.isHiding) {
+            return;
+        }
+
         if (dir === 'n') {
             this.velocity.y = -PIG_BASE_SPEED;
         } else if (dir === 's') {
@@ -55,5 +61,15 @@ export class Pig extends GameObjects.Sprite {
         } else {
             this.velocity.x = 0;
         }
+    }
+
+    hide() {
+        this.visible = false;
+        this.isHiding = true;
+    }
+
+    reveal() {
+        this.visible = true;
+        this.isHiding = false;
     }
 }

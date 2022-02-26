@@ -79,6 +79,10 @@ export class Map {
     }
 
     checkWorldObjects() {
+        if (this.pig.isHiding) {
+            return;
+        }
+
         let actionEnabled = false;
 
         this.worldObjects.forEach((obj: Sprite) => {
@@ -98,10 +102,10 @@ export class Map {
                 if (catchmentArea.contains(this.pig.x, this.pig.y)) {
                     if (obj instanceof Bush) {
                         actionEnabled = true;
-                        this.scene.actionButton.setAction('hide');
+                        this.scene.actionButton.setAction('hide', obj);
                     } else if (this.pig.truffleCount > 0) {
                         actionEnabled = true;
-                        this.scene.actionButton.setAction('deposit');
+                        this.scene.actionButton.setAction('deposit', obj);
                     }
                 }
             }

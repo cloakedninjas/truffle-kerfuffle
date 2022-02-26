@@ -1,8 +1,9 @@
 import { Scene } from 'phaser';
-import { Map } from "../entities/map";
-import { Pig } from "../entities/pig";
-import { Direction } from "../lib/types";
-import { ActionButton } from "../entities/action-button";
+import { Map } from '../entities/map';
+import { Pig } from '../entities/pig';
+import { Direction } from '../lib/types';
+import { ActionButton } from '../entities/action-button';
+import { Bush } from "../entities/bush";
 
 export class Game extends Scene {
     private map: Map;
@@ -20,9 +21,9 @@ export class Game extends Scene {
         this.map = new Map(this);
 
         this.spawnPig();
+        this.setupUI();
         this.setupCameraControls();
         this.setupKeyboardControls();
-        this.setupUI();
 
         // debug
         window['game'] = this;
@@ -71,6 +72,7 @@ export class Game extends Scene {
         wasd['D'].on('up', () => this.pig.stopMove('e'));
 
         cursors.space.on('down', () => this.performAction());
+        this.actionButton.on('pointerdown', () => this.performAction());
     }
 
     private setupUI() {
@@ -83,7 +85,19 @@ export class Game extends Scene {
 
     private performAction() {
         if (this.actionButton.visible) {
-            //
+            switch (this.actionButton.action) {
+                case 'hide':
+                    this.pig.hide();
+                    (this.actionButton.activeObject as Bush).setPigInside();
+                    this.actionButton.setAction('reveal', this.actionButton.activeObject);
+                    break;
+
+                case 'reveal':
+                    this.pig.reveal();
+                    (this.actionButton.activeObject as Bush).setPigOutisde();
+                    this.actionButton.setAction('hide', this.actionButton.activeObject);
+                    break;
+            }
         }
     }
 }
