@@ -1,7 +1,7 @@
 import { GameObjects, Scene } from 'phaser';
-import { Map } from "./map";
-import { Direction } from "../lib/types";
-import { PIG_BASE_SPEED } from "../config";
+import { Map } from './map';
+import { Direction } from '../lib/types';
+import { PIG_BASE_SPEED } from '../config';
 
 export class Pig extends GameObjects.Sprite {
     public velocity: Phaser.Types.Math.Vector2Like;
@@ -20,6 +20,13 @@ export class Pig extends GameObjects.Sprite {
         this.truffleCount = 0;
         this.isHiding = false;
         this.setOrigin(0.5, 1);
+
+        this.anims.create({
+            key: 'walk',
+            frameRate: 10,
+            frames: this.anims.generateFrameNumbers('pig_walk', { frames: [0, 1, 2, 1, 0, 3, 4, 3] }),
+            repeat: -1
+        });
     }
 
     update(delta: number) {
@@ -50,9 +57,13 @@ export class Pig extends GameObjects.Sprite {
 
         if (dir === 'e') {
             this.velocity.x = PIG_BASE_SPEED;
+            this.flipX = true;
         } else if (dir === 'w') {
             this.velocity.x = -PIG_BASE_SPEED;
+            this.flipX = false;
         }
+
+        this.play('walk');
     }
 
     stopMove(dir: Direction) {
@@ -61,6 +72,8 @@ export class Pig extends GameObjects.Sprite {
         } else {
             this.velocity.x = 0;
         }
+
+        this.stop();
     }
 
     hide() {
