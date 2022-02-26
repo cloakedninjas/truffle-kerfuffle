@@ -54,7 +54,7 @@ export class Map {
         ]);
 
         this.worldObjects.forEach((sprite: Sprite) => {
-            sprite.setDepth(sprite.y + sprite.height);
+            sprite.setDepth(sprite.y + (sprite.height * sprite.originY));
         });
 
         // spawn truffles
