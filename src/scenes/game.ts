@@ -26,6 +26,7 @@ export class Game extends Scene {
     private lives: Phaser.GameObjects.Sprite[];
     private truffleCounter: Phaser.GameObjects.Sprite;
     private truffleCounterText: Phaser.GameObjects.Text;
+    private music: Phaser.Sound.BaseSound;
 
     constructor() {
         super({
@@ -41,6 +42,12 @@ export class Game extends Scene {
         };
 
         this.cameras.main.roundPixels = false;
+        this.sound.stopAll();
+        this.music = this.sound.add('ingame', {
+            loop: true
+        });
+
+        this.music.play();
 
         this.spawnPig();
         this.spawnFox();
