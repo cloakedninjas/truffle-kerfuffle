@@ -1,6 +1,6 @@
 {
   "assetRoot": "assets",
-  "totalSize": 1715215,
+  "totalSize": 2066178,
   "assets": {
     "image": {
       "truffle": {
@@ -49,7 +49,7 @@
       },
       "rocks": {
         "file": "rocks.png",
-        "size": 3766
+        "size": 5442
       },
       "pig_house": {
         "file": "pig_house.png",
@@ -57,7 +57,7 @@
       },
       "stump": {
         "file": "stump.png",
-        "size": 2562
+        "size": 3536
       },
       "tree_2": {
         "file": "tree_2.png",
@@ -94,18 +94,22 @@
       "title_screen": {
         "file": "title_screen.png",
         "size": 481098
+      },
+      "dark_tree": {
+        "file": "dark_tree.png",
+        "size": 25009
       }
     },
     "tilemapTiledJSON": {
       "map": {
         "file": "map.json",
-        "size": 122899
+        "size": 45442
       }
     },
     "spritesheet": {
       "tiles": {
         "file": "tiles.png",
-        "size": 5976,
+        "size": 20611,
         "frameConfig": {
           "frameWidth": 64,
           "frameHeight": 64
@@ -157,6 +161,14 @@
         "frameConfig": {
           "frameWidth": 57,
           "frameHeight": 47
+        }
+      },
+      "fox_cloud": {
+        "file": "fox_cloud.png",
+        "size": 115156,
+        "frameConfig": {
+          "frameWidth": 275,
+          "frameHeight": 241
         }
       }
     }

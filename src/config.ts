@@ -5,7 +5,7 @@ export const TOTAL_TRUFFLE_SPAWNERS = 8; // TODO
 export const TOTAL_TRUFFLES = 32; // TODO
 export const MIN_TRUFFLES_SPAWN_VARIANCE = 1;
 export const MAX_TRUFFLES_SPAWN_VARIANCE = 3;
-export const MAX_SNIFF_AMOUNT = 1; // TODO
+export const MAX_SNIFF_AMOUNT = 3;
 export const SNIFF_DELAY = 800;
 export const OBJECT_TRANS_ALPHA = 0.6;
 

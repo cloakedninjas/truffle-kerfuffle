@@ -13,6 +13,7 @@ import {
 } from "../config";
 import { Game } from "../scenes/game";
 import { Pig } from "./pig";
+import { Smoke } from "./smoke";
 
 export class Fox extends GameObjects.Sprite {
     scene: Game;
@@ -23,6 +24,7 @@ export class Fox extends GameObjects.Sprite {
     private map: Map;
     private pig: Pig;
     private detectionDelay: Phaser.Time.TimerEvent;
+    private smoke: Smoke;
 
     constructor(scene: Scene, map: Map, pig: Pig) {
         super(scene, 0, 0, 'fox_walk');
@@ -36,6 +38,8 @@ export class Fox extends GameObjects.Sprite {
         };
         this.setOrigin(0.5, 1);
         this.behaviour = 'patrolling';
+
+        this.smoke = new Smoke(this.scene, this.x, this.y);
 
         this.anims.create({
             key: 'idle',
@@ -201,9 +205,15 @@ export class Fox extends GameObjects.Sprite {
         this.velocity.y = 0;
         this.play('idle');
 
-        // puff of smoke, despawn
-
+        this.smoke.show(this);
         this.pig.caught();
+
+        this.scene.time.addEvent({
+            delay: 50,
+            callback: () => {
+                this.respawn();
+            }
+        })
     }
 
     private setChaseVelocity() {
@@ -215,5 +225,13 @@ export class Fox extends GameObjects.Sprite {
         if (Phaser.Math.Distance.BetweenPointsSquared(this, this.pig) < FOX_CAUGHT_DISTANCE_SQ) {
             this.caughtPig()
         }
+    }
+
+    private respawn() {
+        this.smoke.hide();
+        this.x = 1000;
+        this.y = 1000;
+
+        this.queueAction();
     }
 }

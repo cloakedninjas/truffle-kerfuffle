@@ -55,10 +55,37 @@ export class Map {
                 key: 'tree'
             },
             {
-                gid: 154,
-                key: 'shack',
+                gid: 3,
+                key: 'tulip'
+            },
+            {
+                gid: 4,
+                key: 'tree_2'
+            },
+            {
+                gid: 5,
+                key: 'stump'
+            },
+            {
+                gid: 6,
+                key: 'rocks'
+            },
+            {
+                gid: 7,
+                key: 'rock2'
+            },
+            {
+                gid: 8,
                 // @ts-ignore
                 classType: Shack
+            },
+            {
+                gid: 9,
+                key: 'log'
+            },
+            {
+                gid: 10,
+                key: 'grass2'
             }
         ]);
 
