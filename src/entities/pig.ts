@@ -83,7 +83,7 @@ export class Pig extends GameObjects.Sprite {
             key: 'stun',
             frameRate: FRAMERATE,
             frames: this.anims.generateFrameNumbers('pig', {frames: [12, 13, 12, 14]}),
-            repeat: 2
+            repeat: 4
         });
 
         this.on('animationcomplete', (anim: Animation) => {
