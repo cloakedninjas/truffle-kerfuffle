@@ -221,14 +221,12 @@ export class Game extends Scene {
         if (truffle.scentCloud) {
             const distanceToTruffle = Phaser.Math.Distance.Between(this.pig.x, this.pig.y, truffle.x, truffle.y);
 
-            if (truffle.scentCloud.sniffCount > 1 && distanceToTruffle < MIN_SNIFF_SHRINK_DISTANCE) {
+            if (distanceToTruffle < MIN_DIG_DISTANCE) {
+                this.pig.canDig = true;
+                this.nearestTruffleSpawner = truffle;
+            } else if (distanceToTruffle < MIN_SNIFF_SHRINK_DISTANCE) {
                 truffle.scentCloud.shrink();
-
-                if (distanceToTruffle < MIN_DIG_DISTANCE) {
-                    this.pig.canDig = true;
-                    this.nearestTruffleSpawner = truffle;
-                }
-            }
+            } else
             truffle.scentCloud.refresh();
         } else {
             truffle.spawnCloud();

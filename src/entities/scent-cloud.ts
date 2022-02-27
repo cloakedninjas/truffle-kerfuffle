@@ -52,41 +52,34 @@ export class ScentCloud extends GameObjects.Sprite {
     }
 
     setRandomPosition() {
-        super.setRandomPosition(
-            this.actualPosition.x - (this.width / 2),
-            this.actualPosition.y - (this.height / 2),
-            this.width,
-            this.height);
+        const variance = 200;
+        this.x = Phaser.Math.RND.between(this.actualPosition.x - variance, this.actualPosition.x + variance);
+        this.y = Phaser.Math.RND.between(this.actualPosition.y - variance, this.actualPosition.y + variance);
 
         return this;
     }
 
     refresh() {
-        console.log('refresh');
-        if (this.hasShrunk) {
-            this.setRandomProps();
-            this.scale = 1;
-            this.hasShrunk = false;
-            this.sniffCount = 0;
+        if (!this.hasShrunk) {
+            this.setRandomPosition();
         }
 
         this.sniffCount++
         this.alpha = 1;
         this.fadeout.stop();
-        this.setRandomPosition();
         this.addFadeout();
     }
 
     shrink() {
         this.scene.sound.play('clouds');
-        if (this.hasShrunk) {
-            if (!this.fadeout.isPlaying()) {
-                this.alpha = 1;
-                this.fadeout.restart();
-            }
 
+        if (this.hasShrunk) {
+            this.alpha = 1;
+            this.angle = Math.random() * 360;
+            this.fadeout.restart();
             return;
         }
+
         this.fadeout.stop();
         this.alpha = 1;
         this.scale = 0.3;

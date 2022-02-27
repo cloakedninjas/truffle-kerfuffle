@@ -11,7 +11,7 @@ export const OBJECT_TRANS_ALPHA = 0.6;
 
 export const SCENT_CLOUD_FADE_DELAY = 300;
 export const SCENT_CLOUD_FADE_DURATION = 1000;
-export const MIN_SNIFF_SHRINK_DISTANCE = 92;
+export const MIN_SNIFF_SHRINK_DISTANCE = 128;
 export const MIN_DIG_DISTANCE = 64;
 export const DIG_DURATION = 1200;
 export const MIN_PICKUP_DISTANCE = 64;
