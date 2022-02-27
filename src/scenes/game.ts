@@ -4,6 +4,7 @@ import { Pig } from '../entities/pig';
 import { Direction, ScoreParams, TruffleDistance } from '../lib/types';
 import { ActionButton } from '../entities/action-button';
 import {
+    FOX_RESPAWN_COORDS,
     MAX_SNIFF_AMOUNT,
     MIN_DIG_DISTANCE,
     MIN_SNIFF_SHRINK_DISTANCE,
@@ -78,7 +79,8 @@ export class Game extends Scene {
     spawnFox() {
         this.fox = new Fox(this, this.map, this.pig);
         this.add.existing(this.fox);
-        this.fox.setPosition(256, 340);
+        const coords = Phaser.Math.RND.pick(FOX_RESPAWN_COORDS);
+        this.fox.setPosition(coords.x, coords.y);
         this.fox.setDepth(this.fox.y);
         this.map.fox = this.fox;
     }
