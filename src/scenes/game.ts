@@ -3,11 +3,18 @@ import { Map } from '../entities/map';
 import { Pig } from '../entities/pig';
 import { Direction, TruffleDistance } from '../lib/types';
 import { ActionButton } from '../entities/action-button';
-import { Bush } from "../entities/bush";
-import { MAX_SNIFF_AMOUNT, MIN_DIG_DISTANCE, MIN_SNIFF_SHRINK_DISTANCE, OBJECT_TRANS_ALPHA } from "../config";
+import {
+    MAX_SNIFF_AMOUNT,
+    MIN_DIG_DISTANCE,
+    MIN_SNIFF_SHRINK_DISTANCE,
+    OBJECT_TRANS_ALPHA,
+    TOTAL_TRUFFLES,
+    UI_DEPTH
+} from "../config";
 import { TruffleSpawner } from "../entities/truffle-spawner";
 import { Truffle } from "../entities/truffle";
 import { Fox } from "../entities/fox";
+import Sprite = Phaser.GameObjects.Sprite;
 
 export class Game extends Scene {
     map: Map;
@@ -19,6 +26,9 @@ export class Game extends Scene {
         time: number
     };
     actionButton: ActionButton;
+    private lives: Phaser.GameObjects.Sprite[];
+    private truffleCounter: Phaser.GameObjects.Sprite;
+    private truffleCounterText: Phaser.GameObjects.Text;
 
     constructor() {
         super({
@@ -29,7 +39,7 @@ export class Game extends Scene {
     create(): void {
         this.map = new Map(this);
         this.score = {
-            trufflesCollected: 5,
+            trufflesCollected: 0,
             time: 0
         };
 
@@ -53,7 +63,7 @@ export class Game extends Scene {
     spawnPig() {
         this.pig = new Pig(this, this.map);
         this.add.existing(this.pig);
-        this.pig.setPosition(128, 128);
+        this.pig.setPosition(971, 1132);
         this.map.pig = this.pig;
     }
 
@@ -72,6 +82,7 @@ export class Game extends Scene {
 
     registerTruffleCollected(truffle: Truffle) {
         this.score.trufflesCollected++;
+        this.truffleCounterText.text = this.score.trufflesCollected.toString() + ' / ' + TOTAL_TRUFFLES;
         this.map.truffles.splice(this.map.truffles.indexOf(truffle), 1);
     }
 
@@ -115,6 +126,33 @@ export class Game extends Scene {
 
     private setupUI() {
         this.actionButton = new ActionButton(this);
+
+        const uiY = 50;
+        this.lives = [
+            new Sprite(this, 950, uiY, 'lives', 0),
+            new Sprite(this, 875, uiY, 'lives', 0),
+            new Sprite(this, 800, uiY, 'lives', 0)
+        ];
+
+        this.lives.forEach(life => {
+            life.setScrollFactor(0);
+            life.setDepth(UI_DEPTH);
+            this.add.existing(life);
+        });
+
+        this.truffleCounter = this.add.sprite(950, 120, 'truffle_counter');
+        this.truffleCounter.setScrollFactor(0);
+        this.truffleCounter.setDepth(UI_DEPTH);
+
+        this.truffleCounterText = this.add.text(950, 100, '0 / ' + TOTAL_TRUFFLES, {
+            color: '#fff',
+            fontFamily: 'arial, sans-serif',
+            fontSize: '16px',
+            fontStyle: 'bold'
+        });
+        this.truffleCounterText.setOrigin(0.5, 0);
+        this.truffleCounterText.setScrollFactor(0);
+        this.truffleCounterText.setDepth(UI_DEPTH);
     }
 
     private handleDirPress(dir: Direction) {
@@ -197,6 +235,10 @@ export class Game extends Scene {
         } else {
             truffle.spawnCloud();
         }
+    }
+
+    loseLife() {
+        this.lives[this.pig.health].setFrame(1);
     }
 
     gameOver() {

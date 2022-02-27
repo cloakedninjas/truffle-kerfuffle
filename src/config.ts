@@ -36,3 +36,4 @@ export const CAUGHT_TRUFFLES_LOST_MAX = 4;
 export const FRAMERATE = 10;
 
 export const UI_PADDING = 20;
+export const UI_DEPTH = 999999;

@@ -26,7 +26,7 @@ export class Pig extends GameObjects.Sprite {
     isDigging: boolean;
     isWalking: boolean;
     moveDir: Record<Direction, boolean>;
-    private health: number;
+    health: number;
 
     constructor(scene: Scene, map: Map) {
         super(scene, 0, 0, 'pig');
@@ -206,6 +206,7 @@ export class Pig extends GameObjects.Sprite {
 
     caught() {
         this.health--;
+        this.scene.loseLife();
 
         if (this.health <= 0) {
             this.scene.gameOver();
