@@ -1,7 +1,7 @@
 import { Scene } from 'phaser';
 import { Map } from '../entities/map';
 import { Pig } from '../entities/pig';
-import { Direction, TruffleDistance } from '../lib/types';
+import { Direction, ScoreParams, TruffleDistance } from '../lib/types';
 import { ActionButton } from '../entities/action-button';
 import {
     MAX_SNIFF_AMOUNT,
@@ -21,10 +21,7 @@ export class Game extends Scene {
     private pig: Pig;
     private fox: Fox;
     private nearestTruffleSpawner: TruffleSpawner;
-    score: {
-        trufflesCollected: number;
-        time: number
-    };
+    score: ScoreParams;
     actionButton: ActionButton;
     private lives: Phaser.GameObjects.Sprite[];
     private truffleCounter: Phaser.GameObjects.Sprite;
@@ -244,6 +241,6 @@ export class Game extends Scene {
     }
 
     gameOver() {
-        console.log('gave over');
+        this.scene.start('ScoreScene', this.score);
     }
 }

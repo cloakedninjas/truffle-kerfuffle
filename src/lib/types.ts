@@ -17,3 +17,8 @@ export interface MoveLocation {
     coord: Phaser.Types.Math.Vector2Like,
     dist: number
 }
+
+export interface ScoreParams {
+    trufflesCollected: number;
+    time: number
+}
