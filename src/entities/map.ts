@@ -24,6 +24,7 @@ export class Map {
     truffles: Truffle[];
     pig: Pig;
     fox: Fox;
+    nearestBush: Bush;
     private worldObjects: Phaser.GameObjects.GameObject[];
 
     constructor(scene: Game) {
@@ -119,7 +120,8 @@ export class Map {
             return;
         }
 
-        let actionEnabled = false;
+        this.pig.canHide = false;
+        this.pig.canDeposit = false;
 
         this.worldObjects.forEach((obj: Sprite) => {
             if (obj.getBounds().contains(this.pig.x, this.pig.y)) {
@@ -137,11 +139,10 @@ export class Map {
 
                 if (catchmentArea.contains(this.pig.x, this.pig.y)) {
                     if (obj instanceof Bush) {
-                        actionEnabled = true;
-                        this.scene.actionButton.setAction('hide', obj);
+                        this.pig.canHide = true;
+                        this.nearestBush = obj;
                     } else if (this.pig.truffleCount > 0) {
-                        actionEnabled = true;
-                        this.scene.actionButton.setAction('deposit', obj);
+                        this.pig.canDeposit = true;
                     }
                 }
             }
@@ -159,10 +160,6 @@ export class Map {
                 truffle.collect(this.pig);
             }
         })
-
-        if (!actionEnabled) {
-            this.scene.actionButton.setAction('sniff');
-        }
     }
 
     isPositionWalkable(position: Phaser.Types.Math.Vector2Like): boolean {

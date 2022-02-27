@@ -2,13 +2,21 @@ import { GameObjects, Scene } from 'phaser';
 import { Map } from './map';
 import { Direction } from '../lib/types';
 import { DIG_DURATION, FRAMERATE, PIG_BASE_SPEED } from '../config';
+import Animation = Phaser.Animations.Animation;
+import { Game } from "../scenes/game";
 
 export class Pig extends GameObjects.Sprite {
+    scene: Game;
     public velocity: Phaser.Types.Math.Vector2Like;
     private map: Map;
     truffleCount: number;
+    canHide: boolean;
+    canDeposit: boolean;
+    canDig: boolean;
     isHiding: boolean;
     isDigging: boolean;
+    isWalking: boolean;
+    moveDir: Record<Direction, boolean>;
 
     constructor(scene: Scene, map: Map) {
         super(scene, 0, 0, 'pig');
@@ -19,8 +27,23 @@ export class Pig extends GameObjects.Sprite {
             y: 0
         };
         this.truffleCount = 0;
+        this.canHide = false;
+        this.canDeposit = false;
+        this.canDig = false;
         this.isHiding = false;
+        this.isWalking = false;
+        this.moveDir = {
+            n: false,
+            s: false,
+            e: false,
+            w: false
+        };
         this.setOrigin(0.5, 1);
+
+        this.anims.create({
+            key: 'idle',
+            frames: this.anims.generateFrameNumbers('pig', { frames: [0] })
+        });
 
         this.anims.create({
             key: 'walk',
@@ -41,9 +64,47 @@ export class Pig extends GameObjects.Sprite {
             frameRate: FRAMERATE,
             frames: this.anims.generateFrameNumbers('pig', { frames: [9, 10, 11, 10, 11, 10, 11] })
         });
+
+        this.on('animationcomplete', (anim: Animation) => {
+            if (anim.key === 'sniff') {
+                this.play('idle');
+            }
+        }, this);
+
     }
 
     update(delta: number) {
+        this.isWalking = false;
+
+        this.velocity.x = 0;
+        this.velocity.y = 0;
+
+        if (this.moveDir.n) {
+            this.velocity.y = -PIG_BASE_SPEED;
+            this.isWalking = true;
+        } else if (this.moveDir.s) {
+            this.velocity.y = PIG_BASE_SPEED;
+            this.isWalking = true;
+        }
+
+        if (this.moveDir.e) {
+            this.velocity.x = PIG_BASE_SPEED;
+            this.flipX = true;
+            this.isWalking = true;
+        } else if (this.moveDir.w) {
+            this.velocity.x = -PIG_BASE_SPEED;
+            this.flipX = false;
+            this.isWalking = true;
+        }
+
+        const walkAnimationPlaying = this.anims.isPlaying && this.anims.currentAnim?.key === 'walk';
+
+        if (this.isWalking && !walkAnimationPlaying) {
+            this.play('walk');
+        } else if (!this.isWalking && walkAnimationPlaying) {
+            this.play('idle');
+        }
+
         if (this.velocity.x || this.velocity.y) {
             const newPosition = {
                 x: this.x + (this.velocity.x * delta),
@@ -56,6 +117,26 @@ export class Pig extends GameObjects.Sprite {
                 this.map.checkWorldObjects();
             }
         }
+
+        if (this.isHiding) {
+            this.scene.actionButton.setAction('reveal');
+            return;
+        }
+
+        if (this.canHide) {
+            this.scene.actionButton.setAction('hide');
+            return;
+        }
+
+        if (!this.isWalking) {
+            if (this.canDig) {
+                this.scene.actionButton.setAction('dig');
+            } else {
+                this.scene.actionButton.setAction('sniff');
+            }
+        } else if (this.isWalking && this.scene.actionButton.action === 'sniff') {
+            this.scene.actionButton.setAction(null);
+        }
     }
 
     move(dir: Direction) {
@@ -63,31 +144,11 @@ export class Pig extends GameObjects.Sprite {
             return;
         }
 
-        if (dir === 'n') {
-            this.velocity.y = -PIG_BASE_SPEED;
-        } else if (dir === 's') {
-            this.velocity.y = PIG_BASE_SPEED;
-        }
-
-        if (dir === 'e') {
-            this.velocity.x = PIG_BASE_SPEED;
-            this.flipX = true;
-        } else if (dir === 'w') {
-            this.velocity.x = -PIG_BASE_SPEED;
-            this.flipX = false;
-        }
-
-        this.play('walk');
+        this.moveDir[dir] = true;
     }
 
     stopMove(dir: Direction) {
-        if (dir === 'n' || dir === 's') {
-            this.velocity.y = 0
-        } else {
-            this.velocity.x = 0;
-        }
-
-        this.stop();
+        this.moveDir[dir] = false;
     }
 
     hide() {
@@ -101,17 +162,21 @@ export class Pig extends GameObjects.Sprite {
     }
 
     sniff() {
+        if (this.isWalking) {
+            return;
+        }
         this.play('sniff');
     }
 
     dig() {
+        this.canDig = false;
         this.isDigging = true;
         this.play('dig');
 
         this.scene.time.addEvent({
             delay: DIG_DURATION,
             callback: () => {
-                this.setFrame(0); // TODO
+                this.play('idle');
                 this.isDigging = false;
             }
         });

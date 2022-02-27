@@ -132,23 +132,20 @@ export class Game extends Scene {
         switch (this.actionButton.action) {
             case 'hide':
                 this.pig.hide();
-                bush = this.actionButton.activeObject as Bush;
+                bush = this.map.nearestBush;
 
                 bush.setPigInside();
                 bush.alpha = 1;
-                this.actionButton.setAction('reveal', this.actionButton.activeObject);
                 break;
 
             case 'reveal':
                 this.pig.reveal();
-                bush = this.actionButton.activeObject as Bush;
+                bush = this.map.nearestBush;
                 bush.setPigOutisde();
 
                 if (bush.getBounds().contains(this.pig.x, this.pig.y)) {
                     bush.alpha = OBJECT_TRANS_ALPHA;
                 }
-
-                this.actionButton.setAction('hide', this.actionButton.activeObject);
                 break;
 
             case 'sniff':
@@ -173,7 +170,6 @@ export class Game extends Scene {
                 break;
 
             case 'dig':
-                this.actionButton.setAction(null);
                 this.nearestTruffleSpawner.excavate();
                 this.pig.dig();
                 this.removeSpawner(this.nearestTruffleSpawner);
@@ -190,7 +186,7 @@ export class Game extends Scene {
                 truffle.scentCloud.shrink();
 
                 if (distanceToTruffle < MIN_DIG_DISTANCE) {
-                    this.actionButton.setAction('dig');
+                    this.pig.canDig = true;
                     this.nearestTruffleSpawner = truffle;
                 }
 

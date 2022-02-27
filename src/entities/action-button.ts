@@ -2,11 +2,9 @@ import { Scene } from 'phaser';
 import { Button } from "./button";
 import { UI_PADDING } from "../config";
 import { Action } from "../lib/types";
-import GameObject = Phaser.GameObjects.GameObject;
 
 export class ActionButton extends Button {
     action: Action;
-    activeObject: Phaser.GameObjects.GameObject;
 
     constructor(scene: Scene) {
         super(scene, 'action_button');
@@ -17,9 +15,12 @@ export class ActionButton extends Button {
         scene.add.existing(this);
     }
 
-    setAction(action: Action, gameObject?: GameObject) {
+    setAction(action: Action) {
+        if (this.action === action) {
+            return;
+        }
+
         this.action = action;
-        this.activeObject = gameObject;
 
         if (action) {
             this.setTexture(action);

@@ -156,8 +156,9 @@ export class Fox extends GameObjects.Sprite {
     chasePig() {
         console.log('CHASE!');
         this.behaviour = 'chasing';
-        this.actionTween.stop();
-        this.actionTimer.destroy();
+
+        this.actionTween?.stop();
+        this.actionTimer?.destroy();
     }
 
     lostSightOfPig() {
