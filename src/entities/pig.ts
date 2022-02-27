@@ -148,8 +148,10 @@ export class Pig extends GameObjects.Sprite {
             } else {
                 this.scene.actionButton.setAction(null);
             }
-        } else if (this.isWalking && this.scene.actionButton.action === 'sniff') {
-            this.scene.actionButton.setAction(null);
+        } else if (this.isWalking) {
+            if (this.scene.actionButton.action === 'sniff' || this.scene.actionButton.action === 'hide') {
+                this.scene.actionButton.setAction(null);
+            }
         }
     }
 

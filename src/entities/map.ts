@@ -164,7 +164,6 @@ export class Map {
                     if (obj instanceof Bush) {
                         this.pig.canHide = true;
                         this.nearestBush = obj;
-                        console.log('yes');
                     } else if (this.pig.truffleCount > 0) {
                         this.pig.canDeposit = true;
                     }

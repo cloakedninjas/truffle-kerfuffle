@@ -8,10 +8,6 @@ export default class Title extends Scene {
     });
   }
 
-  preload(): void {
-    //
-  }
-
   create(): void {
     const bg = this.add.sprite(0, 0, 'title_screen');
     bg.setOrigin(0, 0);
