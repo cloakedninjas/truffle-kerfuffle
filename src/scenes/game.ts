@@ -173,6 +173,7 @@ export class Game extends Scene {
             case 'dig':
                 this.actionButton.setAction(null);
                 this.nearestTruffleSpawner.excavate();
+                this.pig.dig();
                 this.removeSpawner(this.nearestTruffleSpawner);
 
                 break;

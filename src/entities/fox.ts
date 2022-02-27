@@ -57,7 +57,7 @@ export class Fox extends GameObjects.Sprite {
                 this.flipX = !this.flipX;
                 this.queueAction();
             } else {
-                console.log('walk');
+                //console.log('walk');
                 this.queueAction();
             }
         }

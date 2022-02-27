@@ -8,6 +8,7 @@ export class Pig extends GameObjects.Sprite {
     private map: Map;
     truffleCount: number;
     isHiding: boolean;
+    isDigging: boolean;
 
     constructor(scene: Scene, map: Map) {
         super(scene, 0, 0, 'pig_walk');
@@ -27,6 +28,14 @@ export class Pig extends GameObjects.Sprite {
             frames: this.anims.generateFrameNumbers('pig_walk', { frames: [0, 1, 2, 1, 0, 3, 4, 3] }),
             repeat: -1
         });
+
+        this.on('animationcomplete', (animation: Phaser.Animations.Animation) => {
+            console.log('anim complete');
+            if (animation.key === 'dig') {
+                this.isDigging = false;
+                this.setFrame(0);
+            }
+        }, this);
     }
 
     update(delta: number) {
@@ -45,7 +54,7 @@ export class Pig extends GameObjects.Sprite {
     }
 
     move(dir: Direction) {
-        if (this.isHiding) {
+        if (this.isHiding || this.isDigging) {
             return;
         }
 
@@ -84,5 +93,13 @@ export class Pig extends GameObjects.Sprite {
     reveal() {
         this.visible = true;
         this.isHiding = false;
+    }
+
+    dig() {
+        /*this.isDigging = true;
+        this.play({
+            key: 'walk',
+            repeat: 3
+        });*/
     }
 }
