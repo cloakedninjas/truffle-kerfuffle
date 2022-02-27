@@ -58,7 +58,7 @@ export class Game extends Scene {
     }
 
     spawnFox() {
-        this.fox = new Fox(this, this.map);
+        this.fox = new Fox(this, this.map, this.pig);
         this.add.existing(this.fox);
         this.fox.setPosition(256, 340);
         this.fox.setDepth(this.fox.y);

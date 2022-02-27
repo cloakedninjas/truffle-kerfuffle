@@ -7,24 +7,29 @@ import {
     FOX_ACTION_MAX_DELAY,
     FOX_ACTION_MIN_DELAY,
     FOX_CHANCE_LOOK,
-    FOX_CHANCE_WAIT,
+    FOX_CHANCE_WAIT, FOX_DETECTION_DELAY, FOX_DETECTION_DISTANCE, FOX_LOSE_SIGHT_DISTANCE,
     FOX_WALK_SPEED,
     TILE_SIZE
 } from "../config";
 import { Game } from "../scenes/game";
+import { Pig } from "./pig";
 
 export class Fox extends GameObjects.Sprite {
     scene: Game;
     velocity: Phaser.Types.Math.Vector2Like;
-    private map: Map;
     behaviour: FoxBehaviour;
     actionTween: Tween;
     actionTimer: TimerEvent;
+    private map: Map;
+    private pig: Pig;
+    private detectionDelay: Phaser.Time.TimerEvent;
 
-    constructor(scene: Scene, map: Map) {
+    constructor(scene: Scene, map: Map, pig: Pig) {
         super(scene, 0, 0, 'fox_walk');
 
         this.map = map;
+        this.pig = pig;
+
         this.velocity = {
             x: 0,
             y: 0
@@ -42,6 +47,20 @@ export class Fox extends GameObjects.Sprite {
         });
 
         this.queueAction();
+
+        this.detectionDelay = scene.time.addEvent({
+            delay: FOX_DETECTION_DELAY,
+            repeat: -1,
+            callback: () => {
+                const distance = Phaser.Math.Distance.Between(this.x, this.y, pig.x, pig.y);
+
+                if (this.behaviour === 'chasing' && distance > FOX_LOSE_SIGHT_DISTANCE) {
+                    this.lostSightOfPig();
+                } else if (this.behaviour === 'patrolling' && distance < FOX_DETECTION_DISTANCE) {
+                    this.chasePig();
+                }
+            }
+        })
     }
 
     update() {
@@ -109,7 +128,7 @@ export class Fox extends GameObjects.Sprite {
             if (x > 0 && y > 0 &&
                 x < this.map.tilemap.widthInPixels && y < this.map.tilemap.heightInPixels
             ) {
-                if (!this.map.pathIntersectsWithCollision(this, { x, y })) {
+                if (!this.map.pathIntersectsWithCollision(this, {x, y})) {
                     foundValidDest = true;
                 }
             }
@@ -134,35 +153,16 @@ export class Fox extends GameObjects.Sprite {
         };
     }
 
-    /*move(dir: Direction) {
-        if (this.isHiding) {
-            return;
-        }
-
-        if (dir === 'n') {
-            this.velocity.y = -PIG_BASE_SPEED;
-        } else if (dir === 's') {
-            this.velocity.y = PIG_BASE_SPEED;
-        }
-
-        if (dir === 'e') {
-            this.velocity.x = PIG_BASE_SPEED;
-            this.flipX = true;
-        } else if (dir === 'w') {
-            this.velocity.x = -PIG_BASE_SPEED;
-            this.flipX = false;
-        }
-
-        this.play('walk');
+    chasePig() {
+        console.log('CHASE!');
+        this.behaviour = 'chasing';
+        this.actionTween.stop();
+        this.actionTimer.destroy();
     }
 
-    stopMove(dir: Direction) {
-        if (dir === 'n' || dir === 's') {
-            this.velocity.y = 0
-        } else {
-            this.velocity.x = 0;
-        }
-
-        this.stop();
-    }*/
+    lostSightOfPig() {
+        console.log('lost');
+        this.behaviour = 'patrolling';
+        this.queueAction();
+    }
 }
