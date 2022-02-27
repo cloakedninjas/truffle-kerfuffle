@@ -1,1 +1,80 @@
-{"assetRoot":"assets","totalSize":867359,"assets":{"image":{"truffle":{"file":"truffle.png","size":146},"action_button":{"file":"action_button.png","size":240},"bush":{"file":"bush.png","size":10191},"tree":{"file":"tree.png","size":39732},"bush_pig":{"file":"bush_pig.png","size":12433},"hide":{"file":"hide.png","size":331},"dig":{"file":"dig.png","size":419},"sniff":{"file":"sniff.png","size":262},"reveal":{"file":"reveal.png","size":300},"smell_zone":{"file":"smell_zone.png","size":926}},"tilemapTiledJSON":{"map":{"file":"map.json","size":122899}},"spritesheet":{"pig_walk":{"file":"pig_walk.png","size":18220,"frameConfig":{"frameWidth":61,"frameHeight":55}},"tiles":{"file":"tiles.png","size":358,"frameConfig":{"frameWidth":64,"frameHeight":64}}}}}
+{
+  "assetRoot": "assets",
+  "totalSize": 934705,
+  "assets": {
+    "image": {
+      "truffle": {
+        "file": "truffle.png",
+        "size": 146
+      },
+      "action_button": {
+        "file": "action_button.png",
+        "size": 240
+      },
+      "bush": {
+        "file": "bush.png",
+        "size": 10191
+      },
+      "tree": {
+        "file": "tree.png",
+        "size": 39732
+      },
+      "bush_pig": {
+        "file": "bush_pig.png",
+        "size": 12433
+      },
+      "hide": {
+        "file": "hide.png",
+        "size": 331
+      },
+      "dig": {
+        "file": "dig.png",
+        "size": 419
+      },
+      "sniff": {
+        "file": "sniff.png",
+        "size": 262
+      },
+      "reveal": {
+        "file": "reveal.png",
+        "size": 300
+      },
+      "smell_zone": {
+        "file": "smell_zone.png",
+        "size": 926
+      }
+    },
+    "tilemapTiledJSON": {
+      "map": {
+        "file": "map.json",
+        "size": 122899
+      }
+    },
+    "spritesheet": {
+      "pig_walk": {
+        "file": "pig_walk.png",
+        "size": 18220,
+        "frameConfig": {
+          "frameWidth": 61,
+          "frameHeight": 55
+        }
+      },
+      "tiles": {
+        "file": "tiles.png",
+        "size": 5976,
+        "frameConfig": {
+          "frameWidth": 64,
+          "frameHeight": 64
+        }
+      },
+      "fox_walk": {
+        "file": "fox_walk.png",
+        "size": 61370,
+        "frameConfig": {
+          "frameWidth": 133,
+          "frameHeight": 106
+        }
+      }
+    }
+  }
+}

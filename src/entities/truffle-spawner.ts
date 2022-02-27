@@ -1,4 +1,4 @@
-import { GameObjects, Scene } from 'phaser';
+import { GameObjects } from 'phaser';
 import { Map } from "./map";
 import { ScentCloud } from "./scent-cloud";
 import { Truffle } from "./truffle";

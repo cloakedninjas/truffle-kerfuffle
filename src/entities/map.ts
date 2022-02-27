@@ -1,12 +1,19 @@
-import { MIN_PICKUP_DISTANCE, OBJECT_TRANS_ALPHA, TILE_SIZE, TOTAL_TRUFFLE } from "../config";
+import {
+    MAX_TRUFFLES_SPAWN_VARIANCE,
+    MIN_PICKUP_DISTANCE, MIN_TRUFFLES_SPAWN_VARIANCE,
+    OBJECT_TRANS_ALPHA,
+    TILE_SIZE,
+    TOTAL_TRUFFLE_SPAWNERS,
+    TOTAL_TRUFFLES
+} from "../config";
 import { TruffleSpawner } from "./truffle-spawner";
 import { Pig } from "./pig";
 import { Shack } from "./shack";
 import { Bush } from "./bush";
 import { Game } from "../scenes/game";
+import { Truffle } from "./truffle";
 import Sprite = Phaser.GameObjects.Sprite;
 import Tile = Phaser.Tilemaps.Tile;
-import { Truffle } from "./truffle";
 
 export class Map {
     scene: Game;
@@ -71,12 +78,33 @@ export class Map {
 
         if (spawnLocations.length) {
             this.truffleSpawners = [];
+            const trufflePerSpawner = TOTAL_TRUFFLES / TOTAL_TRUFFLE_SPAWNERS;
+            let variance = 0;
+            let count = 0;
 
-            for (let i = 0; i < TOTAL_TRUFFLE; i++) {
+            for (let i = 0; i < TOTAL_TRUFFLE_SPAWNERS; i++) {
+                if (i % 2 === 0) {
+                    variance = Phaser.Math.RND.between(MIN_TRUFFLES_SPAWN_VARIANCE, MAX_TRUFFLES_SPAWN_VARIANCE);
+                } else {
+                    variance *= -1;
+                }
+
+                let spawnQty = trufflePerSpawner + variance;
+
+                if (i === TOTAL_TRUFFLE_SPAWNERS - 1) {
+                    spawnQty = TOTAL_TRUFFLES - count;
+
+                    if (spawnQty <= 0) {
+                        console.warn('0 truffles at last spawner!!');
+                    }
+                }
+
+                count += spawnQty;
+
                 const spawnIndex = Math.floor(Math.random() * spawnLocations.length);
                 const tile = spawnLocations[spawnIndex];
 
-                this.truffleSpawners.push(new TruffleSpawner(this.scene, this, tile, 3)); // TODO randomise
+                this.truffleSpawners.push(new TruffleSpawner(this.scene, this, tile, spawnQty));
                 spawnLocations.splice(spawnIndex, 1);
             }
         }

@@ -11,7 +11,7 @@ import { Truffle } from "../entities/truffle";
 export class Game extends Scene {
     private map: Map;
     private pig: Pig;
-    private nearestTruffle: TruffleSpawner;
+    private nearestTruffleSpawner: TruffleSpawner;
     private score: {
         trufflesCollected: number;
         time: number
@@ -61,6 +61,11 @@ export class Game extends Scene {
     registerTruffleCollected(truffle: Truffle) {
         this.score.trufflesCollected++;
         this.map.truffles.splice(this.map.truffles.indexOf(truffle), 1);
+    }
+
+    removeSpawner(truffleSpawner: TruffleSpawner) {
+        this.map.truffleSpawners.splice(this.map.truffleSpawners.indexOf(truffleSpawner), 1);
+        this.nearestTruffleSpawner = null;
     }
 
     private setupCameraControls(): void {
@@ -156,7 +161,8 @@ export class Game extends Scene {
 
             case 'dig':
                 this.actionButton.setAction(null);
-                this.nearestTruffle.excavate();
+                this.nearestTruffleSpawner.excavate();
+                this.removeSpawner(this.nearestTruffleSpawner);
 
                 break;
         }
@@ -171,7 +177,7 @@ export class Game extends Scene {
 
                 if (distanceToTruffle < MIN_DIG_DISTANCE) {
                     this.actionButton.setAction('dig');
-                    this.nearestTruffle = truffle;
+                    this.nearestTruffleSpawner = truffle;
                 }
 
                 return;
