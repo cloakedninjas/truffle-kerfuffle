@@ -20,5 +20,6 @@ export const FOX_ACTION_MAX_DELAY = 2000;
 export const FOX_CHANCE_WAIT = 0.4;
 export const FOX_CHANCE_LOOK = 0.4;
 export const FOX_CHANCE_WALK = 0.2;
+export const FOX_WALK_SPEED = 20;
 
 export const UI_PADDING = 20;

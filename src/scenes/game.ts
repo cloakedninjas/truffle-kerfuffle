@@ -10,7 +10,7 @@ import { Truffle } from "../entities/truffle";
 import { Fox } from "../entities/fox";
 
 export class Game extends Scene {
-    private map: Map;
+    map: Map;
     private pig: Pig;
     private fox: Fox;
     private nearestTruffleSpawner: TruffleSpawner;
@@ -47,6 +47,7 @@ export class Game extends Scene {
     update(time: number, delta: number) {
         super.update(time, delta);
         this.pig.update(delta);
+        this.fox.update();
     }
 
     spawnPig() {
@@ -59,7 +60,7 @@ export class Game extends Scene {
     spawnFox() {
         this.fox = new Fox(this, this.map);
         this.add.existing(this.fox);
-        this.fox.setPosition(256, 300);
+        this.fox.setPosition(256, 340);
         this.fox.setDepth(this.fox.y);
         this.map.fox = this.fox;
     }

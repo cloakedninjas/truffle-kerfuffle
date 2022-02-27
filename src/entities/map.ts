@@ -183,4 +183,50 @@ export class Map {
             y: position.y * TILE_SIZE
         };
     }
+
+    /**
+     * Borrowed from https://gamedev.stackexchange.com/a/146116/45848
+     */
+    pathIntersectsWithCollision(start: Phaser.Types.Math.Vector2Like, end: Phaser.Types.Math.Vector2Like) {
+        // convert px to tile
+        const startTile = this.pxToTileCoord(start);
+        const endTile = this.pxToTileCoord(end);
+
+        const tilesAlongPath = [];
+
+        const x0 = startTile.x
+        const y0 = startTile.y;
+        const x1 = endTile.x;
+        const y1 = endTile.y;
+
+        let dx = Math.abs(x1 - x0);
+        let dy = Math.abs(y1 - y0);
+        let x = x0;
+        let y = y0;
+        const x_inc = (x1 > x0) ? 1 : -1;
+        const y_inc = (y1 > y0) ? 1 : -1;
+        let error = dx - dy;
+        dx *= 2;
+        dy *= 2;
+
+        for (let n = 1 + dx + dy; n > 0; n--) {
+            tilesAlongPath.push({ x, y });
+
+            if (error > 0) {
+                x += x_inc;
+                error -= dy;
+            } else if (error < 0) {
+                y += y_inc;
+                error += dx;
+            } else if (error == 0) {
+                x += x_inc;
+                y += y_inc;
+                error -= dy;
+                error += dx;
+                --n;
+            }
+        }
+
+        return tilesAlongPath.some(tile => this.collisionLayer.getTileAt(tile.x, tile.y) !== null);
+    }
 }

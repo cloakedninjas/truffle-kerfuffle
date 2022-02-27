@@ -12,3 +12,8 @@ export interface TruffleDistance {
     truffle: TruffleSpawner;
     distance: number;
 }
+
+export interface PatrolDestination {
+    coord: Phaser.Types.Math.Vector2Like,
+    dist: number
+}
