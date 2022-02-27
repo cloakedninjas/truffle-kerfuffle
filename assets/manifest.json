@@ -1,1 +1,152 @@
-{"assetRoot":"assets","totalSize":2269866,"assets":{"image":{"truffle":{"file":"truffle.png","size":146},"action_button":{"file":"action_button.png","size":240},"bush":{"file":"bush.png","size":10191},"tree":{"file":"tree.png","size":39732},"bush_pig":{"file":"bush_pig.png","size":12433},"hide":{"file":"hide.png","size":331},"dig":{"file":"dig.png","size":419},"sniff":{"file":"sniff.png","size":262},"reveal":{"file":"reveal.png","size":300},"smell_zone":{"file":"smell_zone.png","size":926},"log":{"file":"log.png","size":5462},"rocks":{"file":"rocks.png","size":5442},"pig_house":{"file":"pig_house.png","size":26278},"stump":{"file":"stump.png","size":3536},"tree_2":{"file":"tree_2.png","size":17960},"truffle1":{"file":"truffle1.png","size":2655},"truffle3":{"file":"truffle3.png","size":2297},"truffle2":{"file":"truffle2.png","size":2736},"grass2":{"file":"grass2.png","size":3817},"rock2":{"file":"rock2.png","size":2025},"tulip":{"file":"tulip.png","size":3171},"truffle_counter":{"file":"truffle_counter.png","size":6401},"title_screen":{"file":"title_screen.png","size":481098},"dark_tree":{"file":"dark_tree.png","size":25009}},"tilemapTiledJSON":{"map":{"file":"map.json","size":46337}},"spritesheet":{"tiles":{"file":"tiles.png","size":7970,"frameConfig":{"frameWidth":64,"frameHeight":64}},"fox_walk":{"file":"fox_walk.png","size":61370,"frameConfig":{"frameWidth":133,"frameHeight":106}},"sniff_cloud":{"file":"sniff_cloud.png","size":63708,"frameConfig":{"frameWidth":554,"frameHeight":486}},"sniffcloudsmall":{"file":"sniffcloudsmall.png","size":4734,"frameConfig":{"frameWidth":64,"frameHeight":64}},"pig":{"file":"pig.png","size":45702,"frameConfig":{"frameWidth":68,"frameHeight":56}},"contextual":{"file":"contextual.png","size":68478,"frameConfig":{"frameWidth":122,"frameHeight":148}},"lives":{"file":"lives.png","size":7649,"frameConfig":{"frameWidth":57,"frameHeight":47}},"fox_cloud":{"file":"fox_cloud.png","size":80903,"frameConfig":{"frameWidth":275,"frameHeight":241}}}}}
+{
+  "assetRoot": "assets",
+  "totalSize": 2269866,
+  "assets": {
+    "image": {
+      "truffle": {
+        "file": "truffle.png",
+        "size": 146
+      },
+      "bush": {
+        "file": "bush.png",
+        "size": 10191
+      },
+      "tree": {
+        "file": "tree.png",
+        "size": 39732
+      },
+      "bush_pig": {
+        "file": "bush_pig.png",
+        "size": 12433
+      },
+      "log": {
+        "file": "log.png",
+        "size": 5462
+      },
+      "rocks": {
+        "file": "rocks.png",
+        "size": 5442
+      },
+      "pig_house": {
+        "file": "pig_house.png",
+        "size": 26278
+      },
+      "stump": {
+        "file": "stump.png",
+        "size": 3536
+      },
+      "tree_2": {
+        "file": "tree_2.png",
+        "size": 17960
+      },
+      "truffle1": {
+        "file": "truffle1.png",
+        "size": 2655
+      },
+      "truffle3": {
+        "file": "truffle3.png",
+        "size": 2297
+      },
+      "truffle2": {
+        "file": "truffle2.png",
+        "size": 2736
+      },
+      "grass2": {
+        "file": "grass2.png",
+        "size": 3817
+      },
+      "rock2": {
+        "file": "rock2.png",
+        "size": 2025
+      },
+      "tulip": {
+        "file": "tulip.png",
+        "size": 3171
+      },
+      "truffle_counter": {
+        "file": "truffle_counter.png",
+        "size": 6401
+      },
+      "title_screen": {
+        "file": "title_screen.png",
+        "size": 481098
+      },
+      "dark_tree": {
+        "file": "dark_tree.png",
+        "size": 25009
+      }
+    },
+    "tilemapTiledJSON": {
+      "map": {
+        "file": "map.json",
+        "size": 46337
+      }
+    },
+    "spritesheet": {
+      "tiles": {
+        "file": "tiles.png",
+        "size": 7970,
+        "frameConfig": {
+          "frameWidth": 64,
+          "frameHeight": 64
+        }
+      },
+      "fox_walk": {
+        "file": "fox_walk.png",
+        "size": 61370,
+        "frameConfig": {
+          "frameWidth": 133,
+          "frameHeight": 106
+        }
+      },
+      "sniff_cloud": {
+        "file": "sniff_cloud.png",
+        "size": 63708,
+        "frameConfig": {
+          "frameWidth": 554,
+          "frameHeight": 486
+        }
+      },
+      "sniffcloudsmall": {
+        "file": "sniffcloudsmall.png",
+        "size": 4734,
+        "frameConfig": {
+          "frameWidth": 64,
+          "frameHeight": 64
+        }
+      },
+      "pig": {
+        "file": "pig.png",
+        "size": 45702,
+        "frameConfig": {
+          "frameWidth": 68,
+          "frameHeight": 56
+        }
+      },
+      "contextual": {
+        "file": "contextual.png",
+        "size": 68478,
+        "frameConfig": {
+          "frameWidth": 122,
+          "frameHeight": 148
+        }
+      },
+      "lives": {
+        "file": "lives.png",
+        "size": 7649,
+        "frameConfig": {
+          "frameWidth": 57,
+          "frameHeight": 47
+        }
+      },
+      "fox_cloud": {
+        "file": "fox_cloud.png",
+        "size": 80903,
+        "frameConfig": {
+          "frameWidth": 275,
+          "frameHeight": 241
+        }
+      }
+    }
+  }
+}

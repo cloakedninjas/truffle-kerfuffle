@@ -43,6 +43,8 @@ export class Game extends Scene {
             time: 0
         };
 
+        this.cameras.main.roundPixels = false;
+
         this.spawnPig();
         this.spawnFox();
         this.setupUI();

@@ -2,11 +2,12 @@ import 'phaser';
 import Boot from './scenes/boot';
 import Preload from './scenes/preload';
 import { Game as GameScene } from './scenes/game';
+import Title from "./scenes/title";
 
 const config: Phaser.Types.Core.GameConfig = {
   title: 'Demo Game',
 
-  scene: [Boot, Preload, GameScene],
+  scene: [Boot, Preload, Title, GameScene],
   backgroundColor: '#ccc',
   scale: {
     mode: Phaser.Scale.FIT,
