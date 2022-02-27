@@ -46,7 +46,9 @@ export default class Score extends Scene {
     const playButton = this.add.rectangle(393, 630, 240, 65);
     playButton.setInteractive(INTERACTIVE);
     playButton.setOrigin(0, 0);
-    playButton.on('pointerdown', () => this.scene.start('GameScene'));
+    playButton.on('pointerdown', () => {
+      this.sound.play('collect1');
+      this.scene.start('GameScene')
+    });
   }
-
 }

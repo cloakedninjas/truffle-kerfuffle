@@ -19,7 +19,7 @@ export default class Title extends Scene {
     playButton.setInteractive(INTERACTIVE);
     playButton.setOrigin(0, 0);
     playButton.on('pointerdown', () => {
-      this.sound.play('clouds');
+      this.sound.play('collect1');
       this.scene.start('GameScene');
       this.music.stop();
     });

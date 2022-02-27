@@ -228,8 +228,6 @@ export class Game extends Scene {
                     this.pig.canDig = true;
                     this.nearestTruffleSpawner = truffle;
                 }
-
-                return;
             }
             truffle.scentCloud.refresh();
         } else {

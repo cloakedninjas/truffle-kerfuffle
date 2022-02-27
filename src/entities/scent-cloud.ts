@@ -38,10 +38,6 @@ export class ScentCloud extends GameObjects.Sprite {
     }
 
     addFadeout() {
-        if (this.fadeout?.isPlaying()) {
-            console.log('am playing, skip!');
-            return;
-        }
         this.fadeout = this.scene.tweens.add({
             delay: SCENT_CLOUD_FADE_DELAY,
             duration: SCENT_CLOUD_FADE_DURATION,
@@ -66,6 +62,7 @@ export class ScentCloud extends GameObjects.Sprite {
     }
 
     refresh() {
+        console.log('refresh');
         if (this.hasShrunk) {
             this.setRandomProps();
             this.scale = 1;
@@ -75,7 +72,9 @@ export class ScentCloud extends GameObjects.Sprite {
 
         this.sniffCount++
         this.alpha = 1;
-        this.fadeout.restart();
+        this.fadeout.stop();
+        this.setRandomPosition();
+        this.addFadeout();
     }
 
     shrink() {
