@@ -9,7 +9,7 @@ export const MAX_SNIFF_AMOUNT = 3;
 export const SNIFF_DELAY = 800;
 export const OBJECT_TRANS_ALPHA = 0.6;
 
-export const SCENT_CLOUD_FADE_DELAY = 2000;
+export const SCENT_CLOUD_FADE_DELAY = 300;
 export const SCENT_CLOUD_FADE_DURATION = 2000;
 export const MIN_SNIFF_SHRINK_DISTANCE = 92;
 export const MIN_DIG_DISTANCE = 64;
@@ -32,6 +32,8 @@ export const FOX_CAUGHT_DISTANCE_SQ = TILE_SIZE * TILE_SIZE;
 
 export const CAUGHT_TRUFFLES_LOST_MIN = 2;
 export const CAUGHT_TRUFFLES_LOST_MAX = 4;
+
+export const OBJ_CATCHMENT_SIZE = TILE_SIZE * 1.5;
 
 export const FRAMERATE = 10;
 

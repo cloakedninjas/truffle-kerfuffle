@@ -1,6 +1,6 @@
 import {
     MAX_TRUFFLES_SPAWN_VARIANCE,
-    MIN_PICKUP_DISTANCE, MIN_TRUFFLES_SPAWN_VARIANCE,
+    MIN_PICKUP_DISTANCE, MIN_TRUFFLES_SPAWN_VARIANCE, OBJ_CATCHMENT_SIZE,
     OBJECT_TRANS_ALPHA,
     TILE_SIZE,
     TOTAL_TRUFFLE_SPAWNERS,
@@ -76,6 +76,7 @@ export class Map {
             },
             {
                 gid: 8,
+                key: 'pig_house',
                 // @ts-ignore
                 classType: Shack
             },
@@ -158,16 +159,12 @@ export class Map {
             }
 
             if (obj instanceof Bush || obj instanceof Shack) {
-                const catchmentArea = obj.getBounds();
-                catchmentArea.x -= TILE_SIZE;
-                catchmentArea.y -= TILE_SIZE;
-                catchmentArea.width += (TILE_SIZE * 2);
-                catchmentArea.height += (TILE_SIZE * 2);
-
-                if (catchmentArea.contains(this.pig.x, this.pig.y)) {
+                const distance = Phaser.Math.Distance.BetweenPoints(obj, this.pig);
+                if (distance < OBJ_CATCHMENT_SIZE) {
                     if (obj instanceof Bush) {
                         this.pig.canHide = true;
                         this.nearestBush = obj;
+                        console.log('yes');
                     } else if (this.pig.truffleCount > 0) {
                         this.pig.canDeposit = true;
                     }
