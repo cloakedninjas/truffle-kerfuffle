@@ -1,4 +1,5 @@
 import {
+    HALF_TILE_SIZE,
     MAX_TRUFFLES_SPAWN_VARIANCE,
     MIN_PICKUP_DISTANCE, MIN_TRUFFLES_SPAWN_VARIANCE, OBJ_CATCHMENT_SIZE,
     OBJECT_TRANS_ALPHA,
@@ -187,6 +188,13 @@ export class Map {
 
     isPositionWalkable(position: Phaser.Types.Math.Vector2Like): boolean {
         const tile = this.pxToTileCoord(position);
+
+        if (
+            position.y < TILE_SIZE || position.y > this.tilemap.heightInPixels ||
+            position.x < (HALF_TILE_SIZE) || position.x > (this.tilemap.widthInPixels - HALF_TILE_SIZE)
+        ) {
+            return false;
+        }
         return this.collisionLayer.getTileAt(tile.x, tile.y) === null;
     }
 

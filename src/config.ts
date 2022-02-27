@@ -1,4 +1,5 @@
 export const TILE_SIZE = 64;
+export const HALF_TILE_SIZE = TILE_SIZE / 2;
 export const PIG_BASE_SPEED = 0.15;
 export const PIG_LIVES = 3;
 export const TOTAL_TRUFFLE_SPAWNERS = 8; // TODO
