@@ -27,6 +27,7 @@ export class Game extends Scene {
     private truffleCounter: Phaser.GameObjects.Sprite;
     private truffleCounterText: Phaser.GameObjects.Text;
     private music: Phaser.Sound.BaseSound;
+    private startTime: number;
 
     constructor() {
         super({
@@ -35,6 +36,7 @@ export class Game extends Scene {
     }
 
     create(): void {
+        this.startTime = (new Date()).getTime();
         this.map = new Map(this);
         this.score = {
             trufflesCollected: 0,
@@ -249,6 +251,7 @@ export class Game extends Scene {
     }
 
     gameOver() {
+        this.score.time = (new Date()).getTime() - this.startTime;
         this.scene.start('ScoreScene', this.score);
     }
 }
