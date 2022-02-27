@@ -39,7 +39,7 @@ export class Map {
 
         // layers
         this.tilemap.createLayer('ground', tiles);
-        //const clutterLayer = this.tilemap.createLayer(`clutter`, [trees, hills]);
+        this.tilemap.createLayer('clutter', tiles);
         this.collisionLayer = this.tilemap.createLayer('collision', tiles); // TODO hide tiles
 
         // world objects

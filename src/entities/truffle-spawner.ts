@@ -21,7 +21,7 @@ export class TruffleSpawner extends GameObjects.Sprite {
         const pxPos = this.map.tileToPxCoord(position);
         this.x = pxPos.x;
         this.y = pxPos.y;
-        this.alpha = 0.5;
+        this.alpha = 0;
         this.setOrigin(0.5, 0.5);
 
         scene.add.existing(this);

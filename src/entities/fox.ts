@@ -5,9 +5,15 @@ import Tween = Phaser.Tweens.Tween;
 import TimerEvent = Phaser.Time.TimerEvent;
 import {
     FOX_ACTION_MAX_DELAY,
-    FOX_ACTION_MIN_DELAY, FOX_CAUGHT_DISTANCE_SQ,
+    FOX_ACTION_MIN_DELAY,
+    FOX_CAUGHT_DISTANCE_SQ,
     FOX_CHANCE_LOOK,
-    FOX_CHANCE_WAIT, FOX_DETECTION_DELAY, FOX_DETECTION_DISTANCE, FOX_LOSE_SIGHT_DISTANCE, FOX_RUN_SPEED,
+    FOX_CHANCE_WAIT,
+    FOX_DETECTION_DELAY,
+    FOX_DETECTION_DISTANCE,
+    FOX_LOSE_SIGHT_DISTANCE,
+    FOX_RESPAWN_COORDS,
+    FOX_RUN_SPEED,
     FOX_WALK_SPEED,
     TILE_SIZE
 } from "../config";
@@ -213,7 +219,14 @@ export class Fox extends GameObjects.Sprite {
             callback: () => {
                 this.respawn();
             }
-        })
+        });
+
+        this.scene.time.addEvent({
+            delay: 500,
+            callback: () => {
+                this.smoke.hide();
+            }
+        });
     }
 
     private setChaseVelocity() {
@@ -228,9 +241,16 @@ export class Fox extends GameObjects.Sprite {
     }
 
     private respawn() {
-        this.smoke.hide();
-        this.x = 1000;
-        this.y = 1000;
+        let onScreen = true;
+        let coords;
+
+        while (onScreen) {
+            coords = Phaser.Math.RND.pick(FOX_RESPAWN_COORDS);
+            onScreen = this.scene.cameras.main.worldView.contains(coords.x, coords.y);
+        }
+
+        this.x = coords.x;
+        this.y = coords.y;
 
         this.queueAction();
     }

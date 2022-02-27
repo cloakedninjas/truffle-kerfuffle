@@ -29,6 +29,18 @@ export const FOX_DETECTION_DISTANCE = 5 * TILE_SIZE;
 export const FOX_LOSE_SIGHT_DISTANCE = 6 * TILE_SIZE;
 export const FOX_DETECTION_DELAY = 2000;
 export const FOX_CAUGHT_DISTANCE_SQ = TILE_SIZE * TILE_SIZE;
+export const FOX_RESPAWN_COORDS = [
+    {
+        x: 30 * TILE_SIZE,
+        y: 28 * TILE_SIZE
+    }, {
+        x: 4 * TILE_SIZE,
+        y: 26 * TILE_SIZE
+    }, {
+        x: 9 * TILE_SIZE,
+        y: 7 * TILE_SIZE
+    }
+];
 
 export const CAUGHT_TRUFFLES_LOST_MIN = 2;
 export const CAUGHT_TRUFFLES_LOST_MAX = 4;

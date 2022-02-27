@@ -12,7 +12,7 @@ export class Smoke extends GameObjects.Sprite {
 
         this.anims.create({
             key: 'main',
-            frameRate: 10,
+            //frameRate: 3,
             frames: this.anims.generateFrameNumbers('fox_cloud', {frames: [0, 1, 2, 3]}),
             repeat: -1
         });
