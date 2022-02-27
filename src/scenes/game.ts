@@ -84,6 +84,10 @@ export class Game extends Scene {
         this.score.trufflesCollected++;
         this.truffleCounterText.text = this.score.trufflesCollected.toString() + ' / ' + TOTAL_TRUFFLES;
         this.map.truffles.splice(this.map.truffles.indexOf(truffle), 1);
+
+        if (this.score.trufflesCollected === TOTAL_TRUFFLES) {
+            this.gameOver();
+        }
     }
 
     removeSpawner(truffleSpawner: TruffleSpawner) {
