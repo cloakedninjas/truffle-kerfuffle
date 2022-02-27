@@ -56,33 +56,33 @@ export class Pig extends GameObjects.Sprite {
 
         this.anims.create({
             key: 'idle',
-            frames: this.anims.generateFrameNumbers('pig', {frames: [0]})
+            frames: this.anims.generateFrameNumbers('pig', { frames: [0] })
         });
 
         this.anims.create({
             key: 'walk',
             frameRate: FRAMERATE,
-            frames: this.anims.generateFrameNumbers('pig', {frames: [0, 1, 2, 1, 0, 3, 4, 3]}),
+            frames: this.anims.generateFrameNumbers('pig', { frames: [0, 1, 2, 1, 0, 3, 4, 3] }),
             repeat: -1
         });
 
         this.anims.create({
             key: 'dig',
             frameRate: FRAMERATE,
-            frames: this.anims.generateFrameNumbers('pig', {frames: [5, 6, 7, 8]}),
+            frames: this.anims.generateFrameNumbers('pig', { frames: [5, 6, 7, 8] }),
             repeat: 3
         });
 
         this.anims.create({
             key: 'sniff',
             frameRate: FRAMERATE,
-            frames: this.anims.generateFrameNumbers('pig', {frames: [9, 10, 11, 10, 11, 10, 11]})
+            frames: this.anims.generateFrameNumbers('pig', { frames: [9, 10, 11, 10, 11, 10, 11] })
         });
 
         this.anims.create({
             key: 'stun',
             frameRate: FRAMERATE,
-            frames: this.anims.generateFrameNumbers('pig', {frames: [12, 13, 12, 14]}),
+            frames: this.anims.generateFrameNumbers('pig', { frames: [12, 13, 12, 14] }),
             repeat: 4
         });
 

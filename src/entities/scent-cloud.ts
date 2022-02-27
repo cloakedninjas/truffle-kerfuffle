@@ -1,5 +1,5 @@
 import { GameObjects, Scene } from 'phaser';
-import { SCENT_CLOUD_FADE_DELAY, SCENT_CLOUD_FADE_DURATION, TILE_SIZE } from "../config";
+import { SCENT_CLOUD_FADE_DELAY, SCENT_CLOUD_FADE_DURATION } from "../config";
 
 export class ScentCloud extends GameObjects.Sprite {
     private fadeout: Phaser.Tweens.Tween;

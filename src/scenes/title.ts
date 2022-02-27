@@ -30,8 +30,4 @@ export default class Title extends Scene {
 
     this.music.play();
   }
-
-  creditClick() {
-
-  }
 }

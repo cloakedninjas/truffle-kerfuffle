@@ -26,7 +26,6 @@ export default class Score extends Scene {
     const bgImg = this.add.sprite(0, 0, bg);
     bgImg.setOrigin(0, 0);
 
-
     if (this.score.trufflesCollected === TOTAL_TRUFFLES) {
       this.score.time /= 1000;
       const mins = Math.floor(this.score.time / 60);

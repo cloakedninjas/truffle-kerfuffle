@@ -49,7 +49,7 @@ export class Fox extends GameObjects.Sprite {
 
         this.anims.create({
             key: 'idle',
-            frames: this.anims.generateFrameNumbers('fox_walk', {frames: [0]})
+            frames: this.anims.generateFrameNumbers('fox_walk', { frames: [0] })
         });
 
         this.anims.create({
@@ -148,7 +148,7 @@ export class Fox extends GameObjects.Sprite {
             if (x > 0 && y > 0 &&
                 x < this.map.tilemap.widthInPixels && y < this.map.tilemap.heightInPixels
             ) {
-                if (!this.map.pathIntersectsWithCollision(this, {x, y})) {
+                if (!this.map.pathIntersectsWithCollision(this, { x, y })) {
                     foundValidDest = true;
                 }
             }

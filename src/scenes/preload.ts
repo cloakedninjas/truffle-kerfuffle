@@ -6,7 +6,6 @@
 import { Scene } from 'phaser';
 import ProgressBar from '../lib/progress-bar';
 import * as manifest from '../../assets/manifest.json';
-import { TOTAL_TRUFFLES } from "../config";
 
 export default class Preload extends Scene {
   private downloadedSize: number;
@@ -48,7 +47,6 @@ export default class Preload extends Scene {
   }
 
   create(): void {
-    //this.scene.start('GameScene');
     this.scene.start('TitleScene');
   }
 }
