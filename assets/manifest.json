@@ -1,1 +1,286 @@
-{"assetRoot":"assets","totalSize":5059480,"assets":{"image":{"truffle":{"file":"truffle.png","size":146},"bush":{"file":"bush.png","size":10191},"tree":{"file":"tree.png","size":39732},"bush_pig":{"file":"bush_pig.png","size":12433},"log":{"file":"log.png","size":5462},"rocks":{"file":"rocks.png","size":5442},"pig_house":{"file":"pig_house.png","size":26278},"stump":{"file":"stump.png","size":3536},"tree_2":{"file":"tree_2.png","size":17960},"truffle1":{"file":"truffle1.png","size":2655},"truffle3":{"file":"truffle3.png","size":2297},"truffle2":{"file":"truffle2.png","size":2736},"grass2":{"file":"grass2.png","size":3817},"rock2":{"file":"rock2.png","size":2025},"tulip":{"file":"tulip.png","size":3171},"truffle_counter":{"file":"truffle_counter.png","size":6401},"title_screen":{"file":"title_screen.png","size":481098},"dark_tree":{"file":"dark_tree.png","size":25009},"end_screen":{"file":"end_screen.png","size":152697},"end_screen2":{"file":"end_screen2.png","size":146347}},"tilemapTiledJSON":{"map":{"file":"map.json","size":46337}},"spritesheet":{"tiles":{"file":"tiles.png","size":7970,"frameConfig":{"frameWidth":64,"frameHeight":64}},"fox_walk":{"file":"fox_walk.png","size":61370,"frameConfig":{"frameWidth":133,"frameHeight":106}},"sniff_cloud":{"file":"sniff_cloud.png","size":63708,"frameConfig":{"frameWidth":554,"frameHeight":486}},"sniffcloudsmall":{"file":"sniffcloudsmall.png","size":4734,"frameConfig":{"frameWidth":64,"frameHeight":64}},"pig":{"file":"pig.png","size":45702,"frameConfig":{"frameWidth":68,"frameHeight":56}},"contextual":{"file":"contextual.png","size":68478,"frameConfig":{"frameWidth":122,"frameHeight":148}},"lives":{"file":"lives.png","size":7649,"frameConfig":{"frameWidth":57,"frameHeight":47}},"fox_cloud":{"file":"fox_cloud.png","size":80903,"frameConfig":{"frameWidth":275,"frameHeight":241}}},"audio":{"chime3":{"file":"chime3.mp3","size":48064},"chime1":{"file":"chime1.mp3","size":48064},"chime4":{"file":"chime4.mp3","size":48064},"chime2":{"file":"chime2.mp3","size":48064},"chime5":{"file":"chime5.mp3","size":48064},"clouds":{"file":"clouds.mp3","size":86725},"collect1":{"file":"collect1.mp3","size":15672},"chime6":{"file":"chime6.mp3","size":48064},"collect2":{"file":"collect2.mp3","size":15672},"collect3":{"file":"collect3.mp3","size":15672},"dig1":{"file":"dig1.mp3","size":28211},"collect4":{"file":"collect4.mp3","size":15672},"dig3":{"file":"dig3.mp3","size":28211},"dig2":{"file":"dig2.mp3","size":28211},"hide2":{"file":"hide2.mp3","size":32391},"hide1":{"file":"hide1.mp3","size":32391},"hide3":{"file":"hide3.mp3","size":32391},"hunt1":{"file":"hunt1.mp3","size":39705},"hunt2":{"file":"hunt2.mp3","size":39705},"ingame":{"file":"ingame.mp3","size":1137600},"pighit2":{"file":"pighit2.mp3","size":48064},"pighit1":{"file":"pighit1.mp3","size":48064},"pighit3":{"file":"pighit3.mp3","size":48064},"quicksniff1":{"file":"quicksniff1.mp3","size":24031},"quicksniff2":{"file":"quicksniff2.mp3","size":32391},"slowsniff1":{"file":"slowsniff1.mp3","size":35525},"slowsniff2":{"file":"slowsniff2.mp3","size":35525},"quicksniff3":{"file":"quicksniff3.mp3","size":32391},"title":{"file":"title.mp3","size":285120},"unhide2":{"file":"unhide2.mp3","size":32391},"unhide1":{"file":"unhide1.mp3","size":32391}}}}
+{
+  "assetRoot": "assets",
+  "totalSize": 5130799,
+  "assets": {
+    "image": {
+      "truffle": {
+        "file": "truffle.png",
+        "size": 146
+      },
+      "bush": {
+        "file": "bush.png",
+        "size": 10191
+      },
+      "tree": {
+        "file": "tree.png",
+        "size": 39732
+      },
+      "bush_pig": {
+        "file": "bush_pig.png",
+        "size": 12433
+      },
+      "log": {
+        "file": "log.png",
+        "size": 5462
+      },
+      "rocks": {
+        "file": "rocks.png",
+        "size": 5442
+      },
+      "pig_house": {
+        "file": "pig_house.png",
+        "size": 26278
+      },
+      "stump": {
+        "file": "stump.png",
+        "size": 3536
+      },
+      "tree_2": {
+        "file": "tree_2.png",
+        "size": 17960
+      },
+      "truffle1": {
+        "file": "truffle1.png",
+        "size": 2655
+      },
+      "truffle3": {
+        "file": "truffle3.png",
+        "size": 2297
+      },
+      "truffle2": {
+        "file": "truffle2.png",
+        "size": 2736
+      },
+      "grass2": {
+        "file": "grass2.png",
+        "size": 3817
+      },
+      "rock2": {
+        "file": "rock2.png",
+        "size": 2025
+      },
+      "tulip": {
+        "file": "tulip.png",
+        "size": 3171
+      },
+      "truffle_counter": {
+        "file": "truffle_counter.png",
+        "size": 6401
+      },
+      "title_screen": {
+        "file": "title_screen.png",
+        "size": 481098
+      },
+      "dark_tree": {
+        "file": "dark_tree.png",
+        "size": 25009
+      },
+      "end_screen": {
+        "file": "end_screen.png",
+        "size": 152697
+      },
+      "end_screen2": {
+        "file": "end_screen2.png",
+        "size": 146347
+      }
+    },
+    "tilemapTiledJSON": {
+      "map": {
+        "file": "map.json",
+        "size": 46337
+      }
+    },
+    "spritesheet": {
+      "tiles": {
+        "file": "tiles.png",
+        "size": 7970,
+        "frameConfig": {
+          "frameWidth": 64,
+          "frameHeight": 64
+        }
+      },
+      "fox_walk": {
+        "file": "fox_walk.png",
+        "size": 61370,
+        "frameConfig": {
+          "frameWidth": 133,
+          "frameHeight": 106
+        }
+      },
+      "sniff_cloud": {
+        "file": "sniff_cloud.png",
+        "size": 63708,
+        "frameConfig": {
+          "frameWidth": 554,
+          "frameHeight": 486
+        }
+      },
+      "sniffcloudsmall": {
+        "file": "sniffcloudsmall.png",
+        "size": 4734,
+        "frameConfig": {
+          "frameWidth": 64,
+          "frameHeight": 64
+        }
+      },
+      "pig": {
+        "file": "pig.png",
+        "size": 71319,
+        "frameConfig": {
+          "frameWidth": 68,
+          "frameHeight": 56
+        }
+      },
+      "contextual": {
+        "file": "contextual.png",
+        "size": 68478,
+        "frameConfig": {
+          "frameWidth": 122,
+          "frameHeight": 148
+        }
+      },
+      "lives": {
+        "file": "lives.png",
+        "size": 7649,
+        "frameConfig": {
+          "frameWidth": 57,
+          "frameHeight": 47
+        }
+      },
+      "fox_cloud": {
+        "file": "fox_cloud.png",
+        "size": 80903,
+        "frameConfig": {
+          "frameWidth": 275,
+          "frameHeight": 241
+        }
+      }
+    },
+    "audio": {
+      "chime3": {
+        "file": "chime3.mp3",
+        "size": 48064
+      },
+      "chime1": {
+        "file": "chime1.mp3",
+        "size": 48064
+      },
+      "chime4": {
+        "file": "chime4.mp3",
+        "size": 48064
+      },
+      "chime2": {
+        "file": "chime2.mp3",
+        "size": 48064
+      },
+      "chime5": {
+        "file": "chime5.mp3",
+        "size": 48064
+      },
+      "clouds": {
+        "file": "clouds.mp3",
+        "size": 86725
+      },
+      "collect1": {
+        "file": "collect1.mp3",
+        "size": 15672
+      },
+      "chime6": {
+        "file": "chime6.mp3",
+        "size": 48064
+      },
+      "collect2": {
+        "file": "collect2.mp3",
+        "size": 15672
+      },
+      "collect3": {
+        "file": "collect3.mp3",
+        "size": 15672
+      },
+      "dig1": {
+        "file": "dig1.mp3",
+        "size": 28211
+      },
+      "collect4": {
+        "file": "collect4.mp3",
+        "size": 15672
+      },
+      "dig3": {
+        "file": "dig3.mp3",
+        "size": 28211
+      },
+      "dig2": {
+        "file": "dig2.mp3",
+        "size": 28211
+      },
+      "hide2": {
+        "file": "hide2.mp3",
+        "size": 32391
+      },
+      "hide1": {
+        "file": "hide1.mp3",
+        "size": 32391
+      },
+      "hide3": {
+        "file": "hide3.mp3",
+        "size": 32391
+      },
+      "hunt1": {
+        "file": "hunt1.mp3",
+        "size": 39705
+      },
+      "hunt2": {
+        "file": "hunt2.mp3",
+        "size": 39705
+      },
+      "ingame": {
+        "file": "ingame.mp3",
+        "size": 1137600
+      },
+      "pighit2": {
+        "file": "pighit2.mp3",
+        "size": 48064
+      },
+      "pighit1": {
+        "file": "pighit1.mp3",
+        "size": 48064
+      },
+      "pighit3": {
+        "file": "pighit3.mp3",
+        "size": 48064
+      },
+      "quicksniff1": {
+        "file": "quicksniff1.mp3",
+        "size": 24031
+      },
+      "quicksniff2": {
+        "file": "quicksniff2.mp3",
+        "size": 32391
+      },
+      "slowsniff1": {
+        "file": "slowsniff1.mp3",
+        "size": 35525
+      },
+      "slowsniff2": {
+        "file": "slowsniff2.mp3",
+        "size": 35525
+      },
+      "quicksniff3": {
+        "file": "quicksniff3.mp3",
+        "size": 32391
+      },
+      "title": {
+        "file": "title.mp3",
+        "size": 285120
+      },
+      "unhide2": {
+        "file": "unhide2.mp3",
+        "size": 32391
+      },
+      "unhide1": {
+        "file": "unhide1.mp3",
+        "size": 32391
+      }
+    }
+  }
+}

@@ -22,6 +22,7 @@ export class Pig extends GameObjects.Sprite {
     canDeposit: boolean;
     canDig: boolean;
     canSniff: boolean;
+    canMove: boolean;
     isHiding: boolean;
     isDigging: boolean;
     isWalking: boolean;
@@ -40,6 +41,7 @@ export class Pig extends GameObjects.Sprite {
         this.canHide = false;
         this.canDeposit = false;
         this.canDig = false;
+        this.canMove = true;
         this.canSniff = true;
         this.isHiding = false;
         this.isWalking = false;
@@ -77,9 +79,17 @@ export class Pig extends GameObjects.Sprite {
             frames: this.anims.generateFrameNumbers('pig', {frames: [9, 10, 11, 10, 11, 10, 11]})
         });
 
+        this.anims.create({
+            key: 'stun',
+            frameRate: FRAMERATE,
+            frames: this.anims.generateFrameNumbers('pig', {frames: [12, 13, 12, 14]}),
+            repeat: 2
+        });
+
         this.on('animationcomplete', (anim: Animation) => {
-            if (anim.key === 'sniff') {
+            if (anim.key === 'sniff' || anim.key === 'stun') {
                 this.play('idle');
+                this.canMove = true;
             }
         }, this);
 
@@ -156,7 +166,7 @@ export class Pig extends GameObjects.Sprite {
     }
 
     move(dir: Direction) {
-        if (this.isHiding || this.isDigging) {
+        if (this.isHiding || this.isDigging || !this.canMove) {
             return;
         }
 
@@ -214,6 +224,8 @@ export class Pig extends GameObjects.Sprite {
         this.health--;
         this.scene.loseLife();
         this.scene.sound.play(`pighit${Phaser.Math.RND.between(1, 3)}`);
+        this.canMove = false;
+        this.play('stun');
 
         if (this.health <= 0) {
             this.scene.gameOver();
