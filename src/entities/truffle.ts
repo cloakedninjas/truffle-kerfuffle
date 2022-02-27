@@ -1,5 +1,5 @@
 import { GameObjects } from 'phaser';
-import { MAX_TRUFFLE_ERUPT_DISTANCE, MIN_TRUFFLE_ERUPT_DISTANCE, TILE_SIZE } from "../config";
+import { MAX_TRUFFLE_ERUPT_DISTANCE, MIN_TRUFFLE_ERUPT_DISTANCE } from "../config";
 import { Game } from "../scenes/game";
 import { Pig } from "./pig";
 
@@ -8,7 +8,7 @@ export class Truffle extends GameObjects.Sprite {
     scene: Game;
 
     constructor(scene: Game, x: number, y: number) {
-        super(scene, x, y, 'truffle');
+        super(scene, x, y, `truffle${Phaser.Math.RND.between(1, 3)}`);
 
         this.setOrigin(0.5, 1);
         this.setScale(0);

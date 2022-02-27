@@ -1,6 +1,6 @@
 {
   "assetRoot": "assets",
-  "totalSize": 934705,
+  "totalSize": 1066863,
   "assets": {
     "image": {
       "truffle": {
@@ -42,6 +42,38 @@
       "smell_zone": {
         "file": "smell_zone.png",
         "size": 926
+      },
+      "log": {
+        "file": "log.png",
+        "size": 5462
+      },
+      "rocks": {
+        "file": "rocks.png",
+        "size": 3766
+      },
+      "pig_house": {
+        "file": "pig_house.png",
+        "size": 26278
+      },
+      "stump": {
+        "file": "stump.png",
+        "size": 2562
+      },
+      "tree_2": {
+        "file": "tree_2.png",
+        "size": 17960
+      },
+      "truffle1": {
+        "file": "truffle1.png",
+        "size": 2655
+      },
+      "truffle3": {
+        "file": "truffle3.png",
+        "size": 2297
+      },
+      "truffle2": {
+        "file": "truffle2.png",
+        "size": 2736
       }
     },
     "tilemapTiledJSON": {
@@ -73,6 +105,22 @@
         "frameConfig": {
           "frameWidth": 133,
           "frameHeight": 106
+        }
+      },
+      "sniff_cloud": {
+        "file": "sniff_cloud.png",
+        "size": 63708,
+        "frameConfig": {
+          "frameWidth": 554,
+          "frameHeight": 486
+        }
+      },
+      "sniffcloudsmall": {
+        "file": "sniffcloudsmall.png",
+        "size": 4734,
+        "frameConfig": {
+          "frameWidth": 64,
+          "frameHeight": 64
         }
       }
     }

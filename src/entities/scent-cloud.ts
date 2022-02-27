@@ -8,9 +8,18 @@ export class ScentCloud extends GameObjects.Sprite {
     sniffCount: number;
 
     constructor(scene: Scene, x: number, y: number) {
-        super(scene, 0, 0, 'smell_zone');
+        super(scene, 0, 0, 'sniff_cloud');
         this.alpha = 0.7;
         this.setOrigin(0.5, 0.5);
+
+        this.anims.create({
+            key: 'idle',
+            frameRate: 10,
+            frames: this.anims.generateFrameNumbers('sniff_cloud', { frames: [0, 1, 2] }),
+            repeat: -1
+        });
+
+        this.play('idle');
 
         this.actualPosition = {
             x,
