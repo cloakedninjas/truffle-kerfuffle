@@ -1,6 +1,6 @@
 {
   "assetRoot": "assets",
-  "totalSize": 1112565,
+  "totalSize": 1715215,
   "assets": {
     "image": {
       "truffle": {
@@ -74,6 +74,26 @@
       "truffle2": {
         "file": "truffle2.png",
         "size": 2736
+      },
+      "grass2": {
+        "file": "grass2.png",
+        "size": 3817
+      },
+      "rock2": {
+        "file": "rock2.png",
+        "size": 2025
+      },
+      "tulip": {
+        "file": "tulip.png",
+        "size": 3171
+      },
+      "truffle_counter": {
+        "file": "truffle_counter.png",
+        "size": 6401
+      },
+      "title_screen": {
+        "file": "title_screen.png",
+        "size": 481098
       }
     },
     "tilemapTiledJSON": {
@@ -121,6 +141,22 @@
         "frameConfig": {
           "frameWidth": 68,
           "frameHeight": 56
+        }
+      },
+      "contextual": {
+        "file": "contextual.png",
+        "size": 50284,
+        "frameConfig": {
+          "frameWidth": 122,
+          "frameHeight": 148
+        }
+      },
+      "lives": {
+        "file": "lives.png",
+        "size": 7649,
+        "frameConfig": {
+          "frameWidth": 57,
+          "frameHeight": 47
         }
       }
     }

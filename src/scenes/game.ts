@@ -14,7 +14,7 @@ export class Game extends Scene {
     private pig: Pig;
     private fox: Fox;
     private nearestTruffleSpawner: TruffleSpawner;
-    private score: {
+    score: {
         trufflesCollected: number;
         time: number
     };
@@ -29,7 +29,7 @@ export class Game extends Scene {
     create(): void {
         this.map = new Map(this);
         this.score = {
-            trufflesCollected: 0,
+            trufflesCollected: 5,
             time: 0
         };
 
@@ -47,7 +47,7 @@ export class Game extends Scene {
     update(time: number, delta: number) {
         super.update(time, delta);
         this.pig.update(delta);
-        this.fox.update();
+        this.fox.update(delta);
     }
 
     spawnPig() {
@@ -132,6 +132,7 @@ export class Game extends Scene {
         switch (this.actionButton.action) {
             case 'hide':
                 this.pig.hide();
+                this.fox.lostSightOfPig();
                 bush = this.map.nearestBush;
 
                 bush.setPigInside();
@@ -196,5 +197,9 @@ export class Game extends Scene {
         } else {
             truffle.spawnCloud();
         }
+    }
+
+    gameOver() {
+        console.log('gave over');
     }
 }

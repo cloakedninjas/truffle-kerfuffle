@@ -1,9 +1,17 @@
 import { GameObjects, Scene } from 'phaser';
 import { Map } from './map';
 import { Direction } from '../lib/types';
-import { DIG_DURATION, FRAMERATE, PIG_BASE_SPEED } from '../config';
+import {
+    CAUGHT_TRUFFLES_LOST_MAX,
+    CAUGHT_TRUFFLES_LOST_MIN,
+    DIG_DURATION,
+    FRAMERATE,
+    PIG_BASE_SPEED,
+    PIG_LIVES, SNIFF_DELAY
+} from '../config';
 import Animation = Phaser.Animations.Animation;
 import { Game } from "../scenes/game";
+import { Truffle } from "./truffle";
 
 export class Pig extends GameObjects.Sprite {
     scene: Game;
@@ -13,16 +21,18 @@ export class Pig extends GameObjects.Sprite {
     canHide: boolean;
     canDeposit: boolean;
     canDig: boolean;
+    canSniff: boolean;
     isHiding: boolean;
     isDigging: boolean;
     isWalking: boolean;
     moveDir: Record<Direction, boolean>;
+    private health: number;
 
     constructor(scene: Scene, map: Map) {
         super(scene, 0, 0, 'pig');
 
         this.map = map;
-        this.velocity  = {
+        this.velocity = {
             x: 0,
             y: 0
         };
@@ -30,6 +40,7 @@ export class Pig extends GameObjects.Sprite {
         this.canHide = false;
         this.canDeposit = false;
         this.canDig = false;
+        this.canSniff = true;
         this.isHiding = false;
         this.isWalking = false;
         this.moveDir = {
@@ -38,31 +49,32 @@ export class Pig extends GameObjects.Sprite {
             e: false,
             w: false
         };
+        this.health = PIG_LIVES;
         this.setOrigin(0.5, 1);
 
         this.anims.create({
             key: 'idle',
-            frames: this.anims.generateFrameNumbers('pig', { frames: [0] })
+            frames: this.anims.generateFrameNumbers('pig', {frames: [0]})
         });
 
         this.anims.create({
             key: 'walk',
             frameRate: FRAMERATE,
-            frames: this.anims.generateFrameNumbers('pig', { frames: [0, 1, 2, 1, 0, 3, 4, 3] }),
+            frames: this.anims.generateFrameNumbers('pig', {frames: [0, 1, 2, 1, 0, 3, 4, 3]}),
             repeat: -1
         });
 
         this.anims.create({
             key: 'dig',
             frameRate: FRAMERATE,
-            frames: this.anims.generateFrameNumbers('pig', { frames: [5, 6, 7, 8] }),
+            frames: this.anims.generateFrameNumbers('pig', {frames: [5, 6, 7, 8]}),
             repeat: 3
         });
 
         this.anims.create({
             key: 'sniff',
             frameRate: FRAMERATE,
-            frames: this.anims.generateFrameNumbers('pig', { frames: [9, 10, 11, 10, 11, 10, 11] })
+            frames: this.anims.generateFrameNumbers('pig', {frames: [9, 10, 11, 10, 11, 10, 11]})
         });
 
         this.on('animationcomplete', (anim: Animation) => {
@@ -131,8 +143,10 @@ export class Pig extends GameObjects.Sprite {
         if (!this.isWalking) {
             if (this.canDig) {
                 this.scene.actionButton.setAction('dig');
-            } else {
+            } else if (this.canSniff) {
                 this.scene.actionButton.setAction('sniff');
+            } else {
+                this.scene.actionButton.setAction(null);
             }
         } else if (this.isWalking && this.scene.actionButton.action === 'sniff') {
             this.scene.actionButton.setAction(null);
@@ -165,7 +179,15 @@ export class Pig extends GameObjects.Sprite {
         if (this.isWalking) {
             return;
         }
+        this.canSniff = false;
         this.play('sniff');
+
+        this.scene.time.addEvent({
+            delay: SNIFF_DELAY,
+            callback: () => {
+                this.canSniff = true;
+            }
+        })
     }
 
     dig() {
@@ -180,5 +202,22 @@ export class Pig extends GameObjects.Sprite {
                 this.isDigging = false;
             }
         });
+    }
+
+    caught() {
+        this.health--;
+
+        if (this.health <= 0) {
+            this.scene.gameOver();
+        }
+
+        const trufflesToLose = Phaser.Math.RND.between(CAUGHT_TRUFFLES_LOST_MIN, CAUGHT_TRUFFLES_LOST_MAX);
+        const actualTrufflesLost = this.scene.score.trufflesCollected <= trufflesToLose ? this.scene.score.trufflesCollected : trufflesToLose;
+
+        this.scene.score.trufflesCollected -= actualTrufflesLost;
+
+        for (let i = 0; i < actualTrufflesLost; i++) {
+            new Truffle(this.scene, this.x, this.y);
+        }
     }
 }

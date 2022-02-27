@@ -1,13 +1,13 @@
 import { GameObjects, Scene } from 'phaser';
 import { Map } from './map';
-import { FoxBehaviour, PatrolDestination } from "../lib/types";
+import { FoxBehaviour, MoveLocation } from "../lib/types";
 import Tween = Phaser.Tweens.Tween;
 import TimerEvent = Phaser.Time.TimerEvent;
 import {
     FOX_ACTION_MAX_DELAY,
-    FOX_ACTION_MIN_DELAY,
+    FOX_ACTION_MIN_DELAY, FOX_CAUGHT_DISTANCE_SQ,
     FOX_CHANCE_LOOK,
-    FOX_CHANCE_WAIT, FOX_DETECTION_DELAY, FOX_DETECTION_DISTANCE, FOX_LOSE_SIGHT_DISTANCE,
+    FOX_CHANCE_WAIT, FOX_DETECTION_DELAY, FOX_DETECTION_DISTANCE, FOX_LOSE_SIGHT_DISTANCE, FOX_RUN_SPEED,
     FOX_WALK_SPEED,
     TILE_SIZE
 } from "../config";
@@ -38,6 +38,11 @@ export class Fox extends GameObjects.Sprite {
         this.behaviour = 'patrolling';
 
         this.anims.create({
+            key: 'idle',
+            frames: this.anims.generateFrameNumbers('fox_walk', {frames: [0]})
+        });
+
+        this.anims.create({
             key: 'walk',
             frameRate: 10,
             frames: this.anims.generateFrameNumbers('fox_walk', {
@@ -52,6 +57,10 @@ export class Fox extends GameObjects.Sprite {
             delay: FOX_DETECTION_DELAY,
             repeat: -1,
             callback: () => {
+                if (this.pig.isHiding) {
+                    return;
+                }
+
                 const distance = Phaser.Math.Distance.Between(this.x, this.y, pig.x, pig.y);
 
                 if (this.behaviour === 'chasing' && distance > FOX_LOSE_SIGHT_DISTANCE) {
@@ -63,18 +72,33 @@ export class Fox extends GameObjects.Sprite {
         })
     }
 
-    update() {
+    update(delta: number) {
         if (this.actionTween?.isPlaying()) {
             this.setDepth(this.y);
         }
+
+        if (this.behaviour === 'chasing') {
+            this.setChaseVelocity();
+
+            if (this.velocity.y) {
+                this.setDepth(this.y);
+            }
+
+            this.x += (this.velocity.x * delta);
+            this.y += (this.velocity.y * delta);
+        }
     }
 
-    queueAction() {
-        this.actionTimer = this.scene.time.addEvent({
-            delay: Phaser.Math.RND.between(FOX_ACTION_MIN_DELAY, FOX_ACTION_MAX_DELAY),
-            callback: this.performAction,
-            callbackScope: this
-        });
+    queueAction(immediate?: boolean) {
+        if (immediate) {
+            this.performAction();
+        } else {
+            this.actionTimer = this.scene.time.addEvent({
+                delay: Phaser.Math.RND.between(FOX_ACTION_MIN_DELAY, FOX_ACTION_MAX_DELAY),
+                callback: this.performAction,
+                callbackScope: this
+            });
+        }
     }
 
     performAction() {
@@ -92,26 +116,12 @@ export class Fox extends GameObjects.Sprite {
                 this.queueAction();
             } else {
                 const patrolDest = this.pickPatrolDestination();
-
-                this.flipX = patrolDest.coord.x > this.x;
-
-                this.play('walk');
-                this.actionTween = this.scene.tweens.add({
-                    duration: patrolDest.dist * FOX_WALK_SPEED,
-                    targets: this,
-                    x: patrolDest.coord.x,
-                    y: patrolDest.coord.y,
-                    onComplete: () => {
-                        this.stop();
-                        //this.play('idle') //TODO
-                        this.queueAction();
-                    }
-                });
+                this.moveToLocation(patrolDest);
             }
         }
     }
 
-    pickPatrolDestination(): PatrolDestination {
+    pickPatrolDestination(): MoveLocation {
         let foundValidDest = false;
         let searchAttempts = 0;
 
@@ -153,17 +163,57 @@ export class Fox extends GameObjects.Sprite {
         };
     }
 
+    moveToLocation(location: MoveLocation) {
+        this.flipX = location.coord.x > this.x;
+
+        this.play('walk');
+        this.actionTween = this.scene.tweens.add({
+            duration: location.dist * FOX_WALK_SPEED,
+            targets: this,
+            x: location.coord.x,
+            y: location.coord.y,
+            onComplete: () => {
+                this.stop();
+                this.play('idle')
+                this.queueAction();
+            }
+        });
+    }
+
     chasePig() {
-        console.log('CHASE!');
         this.behaviour = 'chasing';
 
         this.actionTween?.stop();
         this.actionTimer?.destroy();
+
+        this.setChaseVelocity();
     }
 
     lostSightOfPig() {
-        console.log('lost');
         this.behaviour = 'patrolling';
-        this.queueAction();
+        this.play('idle');
+        this.queueAction(true);
+    }
+
+    caughtPig() {
+        this.behaviour = 'patrolling';
+        this.velocity.x = 0;
+        this.velocity.y = 0;
+        this.play('idle');
+
+        // puff of smoke, despawn
+
+        this.pig.caught();
+    }
+
+    private setChaseVelocity() {
+        this.velocity.x = (this.x - this.pig.x < 1) ? FOX_RUN_SPEED : -FOX_RUN_SPEED;
+        this.velocity.y = (this.y - this.pig.y < 1) ? FOX_RUN_SPEED : -FOX_RUN_SPEED;
+
+        this.flipX = this.velocity.x > 0;
+
+        if (Phaser.Math.Distance.BetweenPointsSquared(this, this.pig) < FOX_CAUGHT_DISTANCE_SQ) {
+            this.caughtPig()
+        }
     }
 }
