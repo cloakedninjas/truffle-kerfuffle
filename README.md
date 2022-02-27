@@ -1,1 +1,6 @@
-# Alakajam 14 - Fungi
+# Truffle Kerfuffle!
+
+An entry for Alakajam 14 - Fungi
+
+![](splash.png)
+
