@@ -1,17 +1,23 @@
-import { GameObjects, Scene } from 'phaser';
-import { TILE_SIZE } from "../config";
+import { GameObjects } from 'phaser';
+import { MAX_TRUFFLE_ERUPT_DISTANCE, MIN_TRUFFLE_ERUPT_DISTANCE, TILE_SIZE } from "../config";
+import { Game } from "../scenes/game";
+import { Pig } from "./pig";
 
 export class Truffle extends GameObjects.Sprite {
-    constructor(scene: Scene, x: number, y: number) {
+    collectable: boolean;
+    scene: Game;
+
+    constructor(scene: Game, x: number, y: number) {
         super(scene, x, y, 'truffle');
 
-        this.setOrigin(0.5, 0.5);
+        this.setOrigin(0.5, 1);
         this.setScale(0);
+        this.collectable = false;
 
-        scene.add.existing(this);
+        scene.registerTruffle(this);
 
-        let xDist = Phaser.Math.RND.between(TILE_SIZE / 2, TILE_SIZE * 2);
-        let yDist = Phaser.Math.RND.between(TILE_SIZE / 2, TILE_SIZE * 2);
+        let xDist = Phaser.Math.RND.between(MIN_TRUFFLE_ERUPT_DISTANCE, MAX_TRUFFLE_ERUPT_DISTANCE);
+        let yDist = Phaser.Math.RND.between(MIN_TRUFFLE_ERUPT_DISTANCE, MAX_TRUFFLE_ERUPT_DISTANCE);
 
         const tweenDuration = (xDist * 10) + (yDist * 10);
         const delay = Phaser.Math.RND.between(100, 300);
@@ -38,8 +44,24 @@ export class Truffle extends GameObjects.Sprite {
             ease: Phaser.Math.Easing.Bounce.Out,
             targets: this,
             x: this.x + xDist,
-            y: this.y + yDist
+            y: this.y + yDist,
+            onComplete: () => {
+                this.collectable = true;
+            }
         });
     }
 
+    collect(pig: Pig) {
+        this.scene.registerTruffleCollected(this);
+        this.scene.tweens.add({
+            duration: 300,
+            ease: Phaser.Math.Easing.Circular.In,
+            targets: this,
+            x: pig.x,
+            y: pig.y,
+            onComplete: () => {
+                this.destroy();
+            }
+        });
+    }
 }

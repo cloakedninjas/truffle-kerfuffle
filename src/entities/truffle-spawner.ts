@@ -2,15 +2,16 @@ import { GameObjects, Scene } from 'phaser';
 import { Map } from "./map";
 import { ScentCloud } from "./scent-cloud";
 import { Truffle } from "./truffle";
+import { Game } from "../scenes/game";
 
 export class TruffleSpawner extends GameObjects.Sprite {
     private map: Map;
-
+    scene: Game;
     tileCoord: Phaser.Types.Math.Vector2Like;
     scentCloud: ScentCloud;
     private spawnQty: number;
 
-    constructor(scene: Scene, map: Map, position: Phaser.Types.Math.Vector2Like, spawnQty: number) {
+    constructor(scene: Game, map: Map, position: Phaser.Types.Math.Vector2Like, spawnQty: number) {
         super(scene, 0, 0, 'truffle');
 
         this.tileCoord = position;

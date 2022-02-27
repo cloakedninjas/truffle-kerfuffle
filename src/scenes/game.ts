@@ -6,13 +6,17 @@ import { ActionButton } from '../entities/action-button';
 import { Bush } from "../entities/bush";
 import { MAX_SNIFF_AMOUNT, MIN_DIG_DISTANCE, MIN_SNIFF_SHRINK_DISTANCE, OBJECT_TRANS_ALPHA } from "../config";
 import { TruffleSpawner } from "../entities/truffle-spawner";
+import { Truffle } from "../entities/truffle";
 
 export class Game extends Scene {
     private map: Map;
     private pig: Pig;
-
-    actionButton: ActionButton;
     private nearestTruffle: TruffleSpawner;
+    private score: {
+        trufflesCollected: number;
+        time: number
+    };
+    actionButton: ActionButton;
 
     constructor() {
         super({
@@ -22,6 +26,10 @@ export class Game extends Scene {
 
     create(): void {
         this.map = new Map(this);
+        this.score = {
+            trufflesCollected: 0,
+            time: 0
+        };
 
         this.spawnPig();
         this.setupUI();
@@ -43,6 +51,16 @@ export class Game extends Scene {
         this.add.existing(this.pig);
         this.pig.setPosition(128, 128);
         this.map.pig = this.pig;
+    }
+
+    registerTruffle(truffle: Truffle) {
+        this.map.truffles.push(truffle);
+        this.add.existing(truffle);
+    }
+
+    registerTruffleCollected(truffle: Truffle) {
+        this.score.trufflesCollected++;
+        this.map.truffles.splice(this.map.truffles.indexOf(truffle), 1);
     }
 
     private setupCameraControls(): void {
@@ -118,7 +136,7 @@ export class Game extends Scene {
 
             case 'sniff':
                 this.map.truffleSpawners.forEach(truffle => {
-                    const distance = Phaser.Math.Distance.BetweenPointsSquared(truffle.getCenter(), this.pig.getCenter());
+                    const distance = Phaser.Math.Distance.BetweenPointsSquared(truffle, this.pig);
 
                     closestTuffles.push({
                         truffle,
@@ -128,7 +146,7 @@ export class Game extends Scene {
 
                 closestTuffles = closestTuffles.sort((a, b) => a.distance > b.distance ? 1 : -1);
                 closestTuffles = closestTuffles.slice(0, MAX_SNIFF_AMOUNT);
-                closestTuffles.forEach(({truffle}) => {
+                closestTuffles.forEach(({ truffle }) => {
                     if (this.cameras.main.getBounds().contains(truffle.x, truffle.y)) {
                         this.spawnScentCloud(truffle);
                     }

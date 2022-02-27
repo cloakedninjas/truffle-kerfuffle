@@ -1,4 +1,4 @@
-import { OBJECT_TRANS_ALPHA, TILE_SIZE, TOTAL_TRUFFLE } from "../config";
+import { MIN_PICKUP_DISTANCE, OBJECT_TRANS_ALPHA, TILE_SIZE, TOTAL_TRUFFLE } from "../config";
 import { TruffleSpawner } from "./truffle-spawner";
 import { Pig } from "./pig";
 import { Shack } from "./shack";
@@ -6,12 +6,14 @@ import { Bush } from "./bush";
 import { Game } from "../scenes/game";
 import Sprite = Phaser.GameObjects.Sprite;
 import Tile = Phaser.Tilemaps.Tile;
+import { Truffle } from "./truffle";
 
 export class Map {
     scene: Game;
     tilemap: Phaser.Tilemaps.Tilemap;
     collisionLayer: Phaser.Tilemaps.TilemapLayer;
     truffleSpawners: TruffleSpawner[]
+    truffles: Truffle[];
     pig: Pig;
     private worldObjects: Phaser.GameObjects.GameObject[];
 
@@ -78,6 +80,8 @@ export class Map {
                 spawnLocations.splice(spawnIndex, 1);
             }
         }
+
+        this.truffles = [];
     }
 
     checkWorldObjects() {
@@ -112,6 +116,19 @@ export class Map {
                 }
             }
         });
+
+        // are we near any truffles?
+        this.truffles.forEach(truffle => {
+            if (!truffle.collectable) {
+                return;
+            }
+
+            const distance = Phaser.Math.Distance.BetweenPoints(truffle, this.pig);
+
+            if (distance < MIN_PICKUP_DISTANCE) {
+                truffle.collect(this.pig);
+            }
+        })
 
         if (!actionEnabled) {
             this.scene.actionButton.setAction('sniff');
