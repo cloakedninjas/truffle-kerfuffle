@@ -1,6 +1,6 @@
 {
   "assetRoot": "assets",
-  "totalSize": 1066863,
+  "totalSize": 1112565,
   "assets": {
     "image": {
       "truffle": {
@@ -83,14 +83,6 @@
       }
     },
     "spritesheet": {
-      "pig_walk": {
-        "file": "pig_walk.png",
-        "size": 18220,
-        "frameConfig": {
-          "frameWidth": 61,
-          "frameHeight": 55
-        }
-      },
       "tiles": {
         "file": "tiles.png",
         "size": 5976,
@@ -121,6 +113,14 @@
         "frameConfig": {
           "frameWidth": 64,
           "frameHeight": 64
+        }
+      },
+      "pig": {
+        "file": "pig.png",
+        "size": 45702,
+        "frameConfig": {
+          "frameWidth": 68,
+          "frameHeight": 56
         }
       }
     }

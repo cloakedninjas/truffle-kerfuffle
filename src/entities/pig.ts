@@ -1,7 +1,7 @@
 import { GameObjects, Scene } from 'phaser';
 import { Map } from './map';
 import { Direction } from '../lib/types';
-import { PIG_BASE_SPEED } from '../config';
+import { DIG_DURATION, FRAMERATE, PIG_BASE_SPEED } from '../config';
 
 export class Pig extends GameObjects.Sprite {
     public velocity: Phaser.Types.Math.Vector2Like;
@@ -11,7 +11,7 @@ export class Pig extends GameObjects.Sprite {
     isDigging: boolean;
 
     constructor(scene: Scene, map: Map) {
-        super(scene, 0, 0, 'pig_walk');
+        super(scene, 0, 0, 'pig');
 
         this.map = map;
         this.velocity  = {
@@ -24,18 +24,23 @@ export class Pig extends GameObjects.Sprite {
 
         this.anims.create({
             key: 'walk',
-            frameRate: 10,
-            frames: this.anims.generateFrameNumbers('pig_walk', { frames: [0, 1, 2, 1, 0, 3, 4, 3] }),
+            frameRate: FRAMERATE,
+            frames: this.anims.generateFrameNumbers('pig', { frames: [0, 1, 2, 1, 0, 3, 4, 3] }),
             repeat: -1
         });
 
-        this.on('animationcomplete', (animation: Phaser.Animations.Animation) => {
-            console.log('anim complete');
-            if (animation.key === 'dig') {
-                this.isDigging = false;
-                this.setFrame(0);
-            }
-        }, this);
+        this.anims.create({
+            key: 'dig',
+            frameRate: FRAMERATE,
+            frames: this.anims.generateFrameNumbers('pig', { frames: [5, 6, 7, 8] }),
+            repeat: 3
+        });
+
+        this.anims.create({
+            key: 'sniff',
+            frameRate: FRAMERATE,
+            frames: this.anims.generateFrameNumbers('pig', { frames: [9, 10, 11, 10, 11, 10, 11] })
+        });
     }
 
     update(delta: number) {
@@ -95,11 +100,20 @@ export class Pig extends GameObjects.Sprite {
         this.isHiding = false;
     }
 
+    sniff() {
+        this.play('sniff');
+    }
+
     dig() {
-        /*this.isDigging = true;
-        this.play({
-            key: 'walk',
-            repeat: 3
-        });*/
+        this.isDigging = true;
+        this.play('dig');
+
+        this.scene.time.addEvent({
+            delay: DIG_DURATION,
+            callback: () => {
+                this.setFrame(0); // TODO
+                this.isDigging = false;
+            }
+        });
     }
 }

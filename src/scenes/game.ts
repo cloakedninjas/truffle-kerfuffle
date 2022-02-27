@@ -152,6 +152,7 @@ export class Game extends Scene {
                 break;
 
             case 'sniff':
+                this.pig.sniff();
                 this.map.truffleSpawners.forEach(truffle => {
                     const distance = Phaser.Math.Distance.BetweenPointsSquared(truffle, this.pig);
 
