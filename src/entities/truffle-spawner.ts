@@ -35,10 +35,24 @@ export class TruffleSpawner extends GameObjects.Sprite {
         this.scentCloud?.destroy();
 
         for (let i = 0; i < this.spawnQty; i++) {
-            new Truffle(this.scene, this.x, this.y);
+            const delay = i * 100;
+            this.scene.time.addEvent({
+                delay,
+                callback: () => {
+                    const chimeI = i % 6;
+                    const sound = this.scene.sound.add(`chime${chimeI + 1}`);
+                    sound.play();
+
+                    new Truffle(this.scene, this.x, this.y);
+                }
+            });
         }
 
-        // spawner not needed anymore
-        this.destroy();
+        this.scene.time.addEvent({
+            delay: this.spawnQty * 120,
+            callback: () => {
+                this.destroy();
+            }
+        });
     }
 }

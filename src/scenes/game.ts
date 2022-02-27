@@ -80,6 +80,7 @@ export class Game extends Scene {
     }
 
     registerTruffleCollected(truffle: Truffle) {
+        this.sound.play(`collect${Phaser.Math.RND.between(1, 4)}`);
         this.score.trufflesCollected++;
         this.truffleCounterText.text = this.score.trufflesCollected.toString() + ' / ' + TOTAL_TRUFFLES;
         this.map.truffles.splice(this.map.truffles.indexOf(truffle), 1);

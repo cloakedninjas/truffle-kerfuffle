@@ -79,6 +79,7 @@ export class ScentCloud extends GameObjects.Sprite {
     }
 
     shrink() {
+        this.scene.sound.play('clouds');
         if (this.hasShrunk) {
             if (!this.fadeout.isPlaying()) {
                 this.alpha = 1;

@@ -191,6 +191,7 @@ export class Fox extends GameObjects.Sprite {
     }
 
     chasePig() {
+        this.scene.sound.play(`hunt${Phaser.Math.RND.between(1, 2)}`);
         this.behaviour = 'chasing';
 
         this.actionTween?.stop();

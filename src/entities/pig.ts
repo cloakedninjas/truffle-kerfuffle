@@ -170,11 +170,13 @@ export class Pig extends GameObjects.Sprite {
     hide() {
         this.visible = false;
         this.isHiding = true;
+        this.scene.sound.play(`hide${Phaser.Math.RND.between(1, 3)}`);
     }
 
     reveal() {
         this.visible = true;
         this.isHiding = false;
+        this.scene.sound.play(`hide${Phaser.Math.RND.between(1, 2)}`);
     }
 
     sniff() {
@@ -183,6 +185,7 @@ export class Pig extends GameObjects.Sprite {
         }
         this.canSniff = false;
         this.play('sniff');
+        this.scene.sound.play(`quicksniff${Phaser.Math.RND.between(1, 3)}`);
 
         this.scene.time.addEvent({
             delay: SNIFF_DELAY,
@@ -196,6 +199,7 @@ export class Pig extends GameObjects.Sprite {
         this.canDig = false;
         this.isDigging = true;
         this.play('dig');
+        this.scene.sound.play(`dig${Phaser.Math.RND.between(1, 3)}`);
 
         this.scene.time.addEvent({
             delay: DIG_DURATION,
@@ -209,6 +213,7 @@ export class Pig extends GameObjects.Sprite {
     caught() {
         this.health--;
         this.scene.loseLife();
+        this.scene.sound.play(`pighit${Phaser.Math.RND.between(1, 3)}`);
 
         if (this.health <= 0) {
             this.scene.gameOver();
@@ -220,7 +225,17 @@ export class Pig extends GameObjects.Sprite {
         this.scene.score.trufflesCollected -= actualTrufflesLost;
 
         for (let i = 0; i < actualTrufflesLost; i++) {
-            new Truffle(this.scene, this.x, this.y);
+            const delay = i * 100;
+            this.scene.time.addEvent({
+                delay,
+                callback: () => {
+                    const chimeI = i % 6;
+                    const sound = this.scene.sound.add(`chime${chimeI + 1}`);
+                    sound.play();
+
+                    new Truffle(this.scene, this.x, this.y);
+                }
+            });
         }
     }
 }
