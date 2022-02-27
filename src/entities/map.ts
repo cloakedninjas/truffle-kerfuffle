@@ -14,6 +14,7 @@ import { Game } from "../scenes/game";
 import { Truffle } from "./truffle";
 import Sprite = Phaser.GameObjects.Sprite;
 import Tile = Phaser.Tilemaps.Tile;
+import { Fox } from "./fox";
 
 export class Map {
     scene: Game;
@@ -22,6 +23,7 @@ export class Map {
     truffleSpawners: TruffleSpawner[]
     truffles: Truffle[];
     pig: Pig;
+    fox: Fox;
     private worldObjects: Phaser.GameObjects.GameObject[];
 
     constructor(scene: Game) {

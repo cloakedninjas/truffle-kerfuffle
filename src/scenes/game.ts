@@ -7,10 +7,12 @@ import { Bush } from "../entities/bush";
 import { MAX_SNIFF_AMOUNT, MIN_DIG_DISTANCE, MIN_SNIFF_SHRINK_DISTANCE, OBJECT_TRANS_ALPHA } from "../config";
 import { TruffleSpawner } from "../entities/truffle-spawner";
 import { Truffle } from "../entities/truffle";
+import { Fox } from "../entities/fox";
 
 export class Game extends Scene {
     private map: Map;
     private pig: Pig;
+    private fox: Fox;
     private nearestTruffleSpawner: TruffleSpawner;
     private score: {
         trufflesCollected: number;
@@ -32,6 +34,7 @@ export class Game extends Scene {
         };
 
         this.spawnPig();
+        this.spawnFox();
         this.setupUI();
         this.setupCameraControls();
         this.setupKeyboardControls();
@@ -51,6 +54,14 @@ export class Game extends Scene {
         this.add.existing(this.pig);
         this.pig.setPosition(128, 128);
         this.map.pig = this.pig;
+    }
+
+    spawnFox() {
+        this.fox = new Fox(this, this.map);
+        this.add.existing(this.fox);
+        this.fox.setPosition(256, 300);
+        this.fox.setDepth(this.fox.y);
+        this.map.fox = this.fox;
     }
 
     registerTruffle(truffle: Truffle) {

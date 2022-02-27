@@ -15,4 +15,10 @@ export const MIN_PICKUP_DISTANCE = 64;
 export const MIN_TRUFFLE_ERUPT_DISTANCE = 32;
 export const MAX_TRUFFLE_ERUPT_DISTANCE = 96;
 
+export const FOX_ACTION_MIN_DELAY = 1000;
+export const FOX_ACTION_MAX_DELAY = 2000;
+export const FOX_CHANCE_WAIT = 0.4;
+export const FOX_CHANCE_LOOK = 0.4;
+export const FOX_CHANCE_WALK = 0.2;
+
 export const UI_PADDING = 20;
